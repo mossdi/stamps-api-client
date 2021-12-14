@@ -2,8 +2,8 @@
 
 namespace Panacea\Stamps\Enums;
 
-enum ImageType: string
+class ImageType
 {
-    case PNG = 'Png';
-    case PDF = 'Pdf';
+    const PNG = 'Png';
+    const PDF = 'Pdf';
 }
