@@ -1,6 +1,6 @@
 <?php
 
-namespace Slicvic\Stamps\Address;
+namespace Panacea\Stamps\Contracts;
 
 /**
  * Interface for creating a mailing address.
@@ -8,79 +8,79 @@ namespace Slicvic\Stamps\Address;
 interface AddressInterface
 {
     /**
-     * @param string $fullname
+     * @param string $fullName
      * @return $this
      */
-    public function setFullname($fullname);
+    public function setFullName(string $fullName): static;
 
     /**
      * @return string
      */
-    public function getFullname();
+    public function getFullName(): string;
 
     /**
      * @param string $address1
      * @return $this
      */
-    public function setAddress1($address1);
+    public function setAddress1(string $address1): static;
 
     /**
      * @return string
      */
-    public function getAddress1();
+    public function getAddress1(): string;
 
     /**
      * @param string $address2
      * @return $this
      */
-    public function setAddress2($address2);
+    public function setAddress2(string $address2): static;
 
     /**
      * @return string
      */
-    public function getAddress2();
+    public function getAddress2(): string;
 
     /**
      * @param string $city
      * @return $this
      */
-    public function setCity($city);
+    public function setCity(string $city): static;
 
     /**
      * @return string
      */
-    public function getCity();
+    public function getCity(): string;
 
     /**
      * @param string $state
      * @return $this
      */
-    public function setState($state);
+    public function setState(string $state): static;
 
     /**
      * @return string
      */
-    public function getState();
+    public function getState(): string;
 
     /**
      * @param string $zipcode
      * @return $this
      */
-    public function setZipcode($zipcode);
+    public function setZipcode(string $zipcode): static;
 
     /**
      * @return string
      */
-    public function getZipcode();
+    public function getZipcode(): string;
 
     /**
      * @param string $country
      * @return $this
      */
-    public function setCountry($country = 'US');
+    public function setCountry(string $country = 'US'): static;
 
     /**
      * @return string
      */
-    public function getCountry();
+    public function getCountry(): string;
 }

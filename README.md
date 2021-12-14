@@ -1,11 +1,11 @@
-# Stamps.com Shipping Label API Client
+# Stamps Client
 
-A handy-dandy Stamps.com API integration to generate shipping labels.
+A Stamps.com SOAP integration.
 
 ### Usage
 
 ```php
-$to = (new \Slicvic\Stamps\Address\Address)
+$to = (new \Panacea\Stamps\Contracts\Address)
     ->setFullname('Neymar Jr')
     ->setAddress1('100 Ocean Drive')
     ->setAddress2('#200')
@@ -14,7 +14,7 @@ $to = (new \Slicvic\Stamps\Address\Address)
     ->setZipcode('33139')
     ->setCountry('US');
 
-$from = (new \Slicvic\Stamps\Address\Address)
+$from = (new \Panacea\Stamps\Contracts\Address)
     ->setFullname('Leonel Messi')
     ->setAddress1('300 Broadway')
     ->setAddress2('#400')
@@ -24,14 +24,14 @@ $from = (new \Slicvic\Stamps\Address\Address)
     ->setCountry('US');
 
 try {
-    $shippingLabel = (new \Slicvic\Stamps\Api\ShippingLabel)
+    $shippingLabel = (new \Panacea\Stamps\Entities\ShippingLabel)
         ->setApiUrl('API_URL') // Leave out for default
         ->setApiIntegrationId('YOUR_API_INTEGRATION_ID')
         ->setApiUserId('YOUR_API_USER_ID')
         ->setApiPassword('YOUR_API_PASSWORD')
-        ->setImageType(\Slicvic\Stamps\Api\ShippingLabel::IMAGE_TYPE_PNG)
-        ->setPackageType(\Slicvic\Stamps\Api\ShippingLabel::PACKAGE_TYPE_THICK_ENVELOPE)
-        ->setServiceType(\Slicvic\Stamps\Api\ShippingLabel::SERVICE_TYPE_FC)
+        ->setImageType(\Panacea\Stamps\Enums\ImageType::PNG)
+        ->setPackageType(\Panacea\Stamps\Enums\PackageType::THICK_ENVELOPE)
+        ->setServiceType(\Panacea\Stamps\Enums\ServiceType::FC)
         ->setFrom($from)
         ->setTo($to)
         ->setIsSampleOnly(false)

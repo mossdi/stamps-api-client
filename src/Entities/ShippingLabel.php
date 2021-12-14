@@ -1,85 +1,65 @@
 <?php
 
-namespace Slicvic\Stamps\Api;
+namespace Panacea\Stamps\Entities;
 
 use Exception as ApiException;
-use Slicvic\Stamps\Address\AddressInterface;
+use Panacea\Stamps\Enums\ImageType;
+use Panacea\Stamps\Enums\PackageType;
+use Panacea\Stamps\Enums\ServiceType;
+use Panacea\Stamps\Contracts\AbstractClient;
+use Panacea\Stamps\Contracts\AddressInterface;
+use Panacea\Stamps\Contracts\ShippingLabelInterface;
 
 /**
  * Client to generate shipping labels.
  */
 class ShippingLabel extends AbstractClient implements ShippingLabelInterface
 {
-    const SERVICE_TYPE_PRIORITY = 'US-PM';
-    const SERVICE_TYPE_FC       = 'US-FC';
-
-    const IMAGE_TYPE_PNG = 'Png';
-    const IMAGE_TYPE_PDF = 'Pdf';
-
-    const PACKAGE_TYPE_LARGE_ENVELOPE_OR_FLAT   = 'Large Envelope or Flat';
-    const PACKAGE_TYPE_THICK_ENVELOPE           = 'Thick Envelope';
-    const PACKAGE_TYPE_PACKAGE                  = 'Package';
-    const PACKAGE_TYPE_FLAT_RATE_BOX            = 'Flat Rate Box';
-    const PACKAGE_TYPE_SMALL_FLAT_RATE_BOX      = 'Small Flat Rate Box';
-    const PACKAGE_TYPE_LARGE_FLAT_RATE_BOX      = 'Large Flat Rate Box';
-    const PACKAGE_TYPE_FLAT_RATE_ENVELOPE       = 'Flat Rate Envelope';
-    const PACKAGE_TYPE_LARGE_PACKAGE            = 'Large Package';
-    const PACKAGE_TYPE_OVERSIZE_PACKAGE         = 'Oversize Package';
-
     /**
      * If true, generates a sample label without real value.
-     * @var bool
      */
-    protected $isSampleOnly = true;
+    protected bool $isSampleOnly = true;
 
     /**
      * If true, the price will not be printed on the label.
-     * @var bool
      */
-    protected $showPrice = false;
+    protected bool $showPrice = false;
 
     /**
      * The weight of the package in ounces.
-     * @var float
      */
-    protected $weightOz = 0.0;
+    protected float $weightOz = 0.0;
 
     /**
      * The file type of shipping label.
-     * @var string
      */
-    protected $imageType;
+    protected ImageType $imageType;
 
     /**
      * The package type.
-     * @var string
      */
-    protected $packageType;
+    protected PackageType $packageType;
 
     /**
      * The mail service type.
-     * @var string
      */
-    protected $serviceType;
+    protected ServiceType $serviceType;
 
     /**
-     * The sender's adddress.
-     * @var AddressInterface
+     * The sender's address.
      */
-    protected $from;
+    protected AddressInterface $from;
 
     /**
      * The recipient's address.
-     * @var AddressInterface
      */
-    protected $to;
+    protected AddressInterface $to;
 
     /**
      * This is the date the package will be picked up or officially enter the mail system.
      * Defaults to the current date('Y-m-d').
-     * @var string
      */
-    protected $shipDate;
+    protected string $shipDate;
 
     /**
      * {@inheritdoc}
@@ -87,16 +67,16 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     public function __construct()
     {
         parent::__construct();
-        $this->imageType = self::IMAGE_TYPE_PNG;
-        $this->packageType = self::PACKAGE_TYPE_THICK_ENVELOPE;
-        $this->serviceType = self::SERVICE_TYPE_FC;
+        $this->imageType = ImageType::PNG;
+        $this->packageType = PackageType::THICK_ENVELOPE;
+        $this->serviceType = ServiceType::FC;
         $this->shipDate = date('Y-m-d');
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setFrom(AddressInterface $from)
+    public function setFrom(AddressInterface $from): static
     {
         $this->from = $from;
         return $this;
@@ -105,7 +85,7 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function getFrom()
+    public function getFrom(): AddressInterface
     {
         return $this->from;
     }
@@ -113,7 +93,7 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function setTo(AddressInterface $to)
+    public function setTo(AddressInterface $to): static
     {
         $this->to = $to;
         return $this;
@@ -122,7 +102,7 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function getTo()
+    public function getTo(): AddressInterface
     {
         return $this->to;
     }
@@ -130,16 +110,16 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function setIsSampleOnly($flag)
+    public function setIsSampleOnly(bool $flag): static
     {
-        $this->isSampleOnly = (bool) $flag;
+        $this->isSampleOnly = $flag;
         return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getIsSampleOnly()
+    public function getIsSampleOnly(): bool
     {
         return $this->isSampleOnly;
     }
@@ -147,16 +127,16 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function setImageType($type)
+    public function setImageType(ImageType $type): static
     {
-        $this->imageType = (string) $type;
+        $this->imageType = $type;
         return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getImageType()
+    public function getImageType(): ImageType
     {
         return $this->imageType;
     }
@@ -164,16 +144,16 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function setPackageType($type)
+    public function setPackageType(PackageType $type): static
     {
-        $this->packageType = (string) $type;
+        $this->packageType = $type;
         return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getPackageType()
+    public function getPackageType(): PackageType
     {
         return $this->packageType;
     }
@@ -181,16 +161,16 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function setServiceType($type)
+    public function setServiceType(ServiceType $type): static
     {
-        $this->serviceType = (string) $type;
+        $this->serviceType = $type;
         return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getServiceType()
+    public function getServiceType(): ServiceType
     {
         return $this->serviceType;
     }
@@ -198,16 +178,16 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function setWeightOz($weight)
+    public function setWeightOz(float $weight): static
     {
-        $this->weightOz = (float) $weight;
+        $this->weightOz = $weight;
         return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getWeightOz()
+    public function getWeightOz(): float
     {
         return $this->weightOz;
     }
@@ -215,7 +195,7 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function setShipDate($date)
+    public function setShipDate(string $date): static
     {
         $this->shipDate = date('Y-m-d', strtotime($date));
         return $this;
@@ -224,7 +204,7 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function getShipDate()
+    public function getShipDate(): string
     {
         return $this->shipDate;
     }
@@ -232,16 +212,16 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function setShowPrice($flag)
+    public function setShowPrice(bool $flag): static
     {
-        $this->showPrice = (bool) $flag;
+        $this->showPrice = $flag;
         return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getShowPrice()
+    public function getShowPrice(): bool
     {
         return $this->showPrice;
     }
@@ -249,7 +229,7 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function create($filename = null)
+    public function create(string $filename = null): string
     {
         // 1. Check account balance
 
@@ -257,7 +237,7 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
             'Authenticator' => $this->getAuthToken()
         ]);
 
-        $availableBalance = (double) $accountInfoResponse->AccountInfo->PostageBalance->AvailablePostage;
+        $availableBalance = (double)$accountInfoResponse->AccountInfo->PostageBalance->AvailablePostage;
 
         if ($availableBalance < 3) {
             throw new ApiException('Insufficient funds: ' . $availableBalance);
@@ -268,12 +248,12 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
         $cleanseToAddressResponse = $this->soapClient->CleanseAddress([
             'Authenticator' => $this->getAuthToken(),
             'Address' => [
-                'FullName' => $this->to->getFullname(),
+                'FullName' => $this->to->getFullName(),
                 'Address1' => $this->to->getAddress1(),
                 'Address2' => $this->to->getAddress2(),
-                'City'     => $this->to->getCity(),
-                'State'    => $this->to->getState(),
-                'ZIPcode'  => $this->to->getZipcode()
+                'City' => $this->to->getCity(),
+                'State' => $this->to->getState(),
+                'ZIPcode' => $this->to->getZipcode()
             ]
         ]);
 
@@ -284,16 +264,16 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
         // 3. Get rates
 
         $rateOptions = [
-            'FromZIPCode'  => $this->from->getZipcode(),
-            'ToZIPCode'    => $this->to->getZipcode(),
-            'WeightOz'     => $this->weightOz,
-            'WeightLb'     => '0.0',
-            'ShipDate'     => $this->shipDate,
+            'FromZIPCode' => $this->from->getZipcode(),
+            'ToZIPCode' => $this->to->getZipcode(),
+            'WeightOz' => $this->weightOz,
+            'WeightLb' => '0.0',
+            'ShipDate' => $this->shipDate,
 
-            'ServiceType'  => $this->serviceType,
-            'PackageType'  => $this->packageType,
+            'ServiceType' => $this->serviceType->value,
+            'PackageType' => $this->packageType->value,
             'InsuredValue' => '0.0',
-            'AddOns'       => []
+            'AddOns' => []
         ];
 
         if (!$this->showPrice) {
@@ -304,7 +284,7 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
 
         $rates = $this->soapClient->GetRates([
             'Authenticator' => $this->getAuthToken(),
-            'Rate'          => $rateOptions
+            'Rate' => $rateOptions
         ]);
 
         $rateOptions['Rate']['Amount'] = $rates->Rates->Rate->Amount;
@@ -312,29 +292,29 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
         // 4. Generate label
 
         $labelOptions = [
-            'Authenticator'     => $this->getAuthToken(),
-            'IntegratorTxID'    => time(),
-            'SampleOnly'        => $this->isSampleOnly,
-            'ImageType'         => $this->imageType,
+            'Authenticator' => $this->getAuthToken(),
+            'IntegratorTxID' => time(),
+            'SampleOnly' => $this->isSampleOnly,
+            'ImageType' => $this->imageType->value,
 
-            'Rate'              => $rateOptions,
+            'Rate' => $rateOptions,
 
             'From' => [
-                'FullName'      => $this->from->getFullname(),
-                'Address1'      => $this->from->getAddress1(),
-                'Address2'      => $this->from->getAddress2(),
-                'City'          => $this->from->getCity(),
-                'State'         => $this->from->getState(),
-                'ZIPCode'       => $this->from->getZipcode()
+                'FullName' => $this->from->getFullName(),
+                'Address1' => $this->from->getAddress1(),
+                'Address2' => $this->from->getAddress2(),
+                'City' => $this->from->getCity(),
+                'State' => $this->from->getState(),
+                'ZIPCode' => $this->from->getZipcode()
             ],
 
             'To' => [
-                'FullName'      => $this->to->getFullname(),
-                'Address1'      => $this->to->getAddress1(),
-                'Address2'      => $this->to->getAddress2(),
-                'City'          => $this->to->getCity(),
-                'State'         => $this->to->getState(),
-                'ZIPCode'       => $this->to->getZipcode()
+                'FullName' => $this->to->getFullName(),
+                'Address1' => $this->to->getAddress1(),
+                'Address2' => $this->to->getAddress2(),
+                'City' => $this->to->getCity(),
+                'State' => $this->to->getState(),
+                'ZIPCode' => $this->to->getZipcode()
             ]
         ];
 

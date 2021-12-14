@@ -1,41 +1,27 @@
 <?php
 
-namespace Slicvic\Stamps\Api;
+namespace Panacea\Stamps\Contracts;
 
-use \SoapClient;
+use Exception;
+use SoapClient;
 
 /**
  * Base API client.
  */
 abstract class AbstractClient implements ClientInterface
 {
-    /**
-     * @var string
-     */
-    protected $apiUrl = 'https://swsim.stamps.com/swsim/swsimv35.asmx?WSDL';
+    protected string $apiUrl = 'https://swsim.stamps.com/swsim/swsimv35.asmx?WSDL';
+
+    protected string $apiIntegrationId;
+
+    protected string $apiUserId;
+
+    protected string $apiPassword;
+
+    protected SoapClient $soapClient;
 
     /**
-     * @var string
-     */
-    protected $apiIntegrationId;
-
-    /**
-     * @var string
-     */
-    protected $apiUserId;
-
-    /**
-     * @var string
-     */
-    protected $apiPassword;
-
-    /**
-     * @var SoapClient
-     */
-    protected $soapClient;
-
-    /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct()
     {
@@ -47,7 +33,7 @@ abstract class AbstractClient implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function setApiUrl($url)
+    public function setApiUrl(string $url): static
     {
         $this->apiUrl = $url;
         $this->soapClient->__setLocation($this->apiUrl);
@@ -57,7 +43,7 @@ abstract class AbstractClient implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getApiUrl()
+    public function getApiUrl(): string
     {
         return $this->apiUrl;
     }
@@ -65,16 +51,16 @@ abstract class AbstractClient implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function setApiIntegrationId($integrationId)
+    public function setApiIntegrationId(string $integrationId): static
     {
-        $this->apiIntegrationId = (string) $integrationId;
+        $this->apiIntegrationId = $integrationId;
         return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getApiIntegrationId()
+    public function getApiIntegrationId(): string
     {
         return $this->apiIntegrationId;
     }
@@ -82,16 +68,16 @@ abstract class AbstractClient implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function setApiUserId($userId)
+    public function setApiUserId(string $userId): static
     {
-        $this->apiUserId = (string) $userId;
+        $this->apiUserId = $userId;
         return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getApiUserId()
+    public function getApiUserId(): string
     {
         return $this->apiUserId;
     }
@@ -99,16 +85,16 @@ abstract class AbstractClient implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function setApiPassword($password)
+    public function setApiPassword(string $password): static
     {
-        $this->apiPassword = (string) $password;
+        $this->apiPassword = $password;
         return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getApiPassword()
+    public function getApiPassword(): string
     {
         return $this->apiPassword;
     }
@@ -118,13 +104,13 @@ abstract class AbstractClient implements ClientInterface
      *
      * @return string
      */
-    protected function getAuthToken()
+    protected function getAuthToken(): string
     {
         $response = $this->soapClient->AuthenticateUser([
             'Credentials' => [
                 'IntegrationID' => $this->apiIntegrationId,
-                'Username'      => $this->apiUserId,
-                'Password'      => $this->apiPassword
+                'Username' => $this->apiUserId,
+                'Password' => $this->apiPassword
             ]
         ]);
 
