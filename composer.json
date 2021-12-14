@@ -3,6 +3,8 @@
     "description": "A Stamps.com API integration.",
     "type": "library",
     "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "authors": [
         {
             "name": "Dmitriy Mosolov",
@@ -23,4 +25,7 @@
             "Panacea\\Stamps\\": "tests/"
         }
     },
+    "config": {
+        "sort-packages": true
+    }
 }
