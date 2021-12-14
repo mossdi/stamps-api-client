@@ -1,0 +1,31 @@
+{
+    "name": "panacea/stamps-client",
+    "description": "A Stamps.com API integration.",
+    "type": "library",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Dmitriy Mosolov",
+            "email": "dmitriy.mosolov@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "ext-soap": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Panacea\\Stamps\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Panacea\\Stamps\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
