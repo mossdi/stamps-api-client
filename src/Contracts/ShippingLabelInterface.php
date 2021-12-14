@@ -3,9 +3,6 @@
 namespace Panacea\Stamps\Contracts;
 
 use Exception;
-use Panacea\Stamps\Enums\ImageType;
-use Panacea\Stamps\Enums\PackageType;
-use Panacea\Stamps\Enums\ServiceType;
 
 /**
  * Client interface to generate shipping labels.
@@ -23,9 +20,9 @@ interface ShippingLabelInterface
 
     /**
      * @param AddressInterface $from
-     * @return $this
+     * @return self
      */
-    public function setFrom(AddressInterface $from): static;
+    public function setFrom(AddressInterface $from): self;
 
     /**
      * @return AddressInterface
@@ -34,9 +31,9 @@ interface ShippingLabelInterface
 
     /**
      * @param AddressInterface $to
-     * @return $this
+     * @return self
      */
-    public function setTo(AddressInterface $to): static;
+    public function setTo(AddressInterface $to): self;
 
     /**
      * @return AddressInterface
@@ -45,9 +42,9 @@ interface ShippingLabelInterface
 
     /**
      * @param bool $flag
-     * @return $this
+     * @return self
      */
-    public function setIsSampleOnly(bool $flag): static;
+    public function setIsSampleOnly(bool $flag): self;
 
     /**
      * @return bool
@@ -55,43 +52,43 @@ interface ShippingLabelInterface
     public function getIsSampleOnly(): bool;
 
     /**
-     * @param ImageType $type
-     * @return $this
+     * @param string $type
+     * @return self
      */
-    public function setImageType(ImageType $type): static;
+    public function setImageType(string $type): self;
 
     /**
-     * @return ImageType
+     * @return string
      */
-    public function getImageType(): ImageType;
+    public function getImageType(): string;
 
     /**
-     * @param PackageType $type
-     * @return $this
+     * @param string $type
+     * @return self
      */
-    public function setPackageType(PackageType $type): static;
+    public function setPackageType(string $type): self;
 
     /**
-     * @return PackageType
+     * @return string
      */
-    public function getPackageType(): PackageType;
+    public function getPackageType(): string;
 
     /**
-     * @param ServiceType $type
-     * @return $this
+     * @param string $type
+     * @return self
      */
-    public function setServiceType(ServiceType $type): static;
+    public function setServiceType(string $type): self;
 
     /**
-     * @return ServiceType
+     * @return string
      */
-    public function getServiceType(): ServiceType;
+    public function getServiceType(): string;
 
     /**
      * @param float $weight
-     * @return $this
+     * @return self
      */
-    public function setWeightOz(float $weight): static;
+    public function setWeightOz(float $weight): self;
 
     /**
      * @return float
@@ -100,9 +97,9 @@ interface ShippingLabelInterface
 
     /**
      * @param string $date
-     * @return $this
+     * @return self
      */
-    public function setShipDate(string $date): static;
+    public function setShipDate(string $date): self;
 
     /**
      * @return string
@@ -111,9 +108,9 @@ interface ShippingLabelInterface
 
     /**
      * @param bool $flag
-     * @return $this
+     * @return self
      */
-    public function setShowPrice(bool $flag): static;
+    public function setShowPrice(bool $flag): self;
 
     /**
      * @return bool

@@ -2,8 +2,8 @@
 
 namespace Panacea\Stamps\Enums;
 
-enum ServiceType: string
+class ServiceType
 {
-    case PRIORITY = 'US-PM';
-    case FC = 'US-FC';
+    const PRIORITY = 'US-PM';
+    const FC = 'US-FC';
 }

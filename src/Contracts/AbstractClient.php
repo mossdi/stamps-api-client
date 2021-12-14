@@ -33,7 +33,7 @@ abstract class AbstractClient implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function setApiUrl(string $url): static
+    public function setApiUrl(string $url): self
     {
         $this->apiUrl = $url;
         $this->soapClient->__setLocation($this->apiUrl);
@@ -51,7 +51,7 @@ abstract class AbstractClient implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function setApiIntegrationId(string $integrationId): static
+    public function setApiIntegrationId(string $integrationId): self
     {
         $this->apiIntegrationId = $integrationId;
         return $this;
@@ -68,7 +68,7 @@ abstract class AbstractClient implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function setApiUserId(string $userId): static
+    public function setApiUserId(string $userId): self
     {
         $this->apiUserId = $userId;
         return $this;
@@ -85,7 +85,7 @@ abstract class AbstractClient implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function setApiPassword(string $password): static
+    public function setApiPassword(string $password): self
     {
         $this->apiPassword = $password;
         return $this;

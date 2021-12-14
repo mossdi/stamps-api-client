@@ -33,17 +33,17 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * The file type of shipping label.
      */
-    protected ImageType $imageType;
+    protected string $imageType;
 
     /**
      * The package type.
      */
-    protected PackageType $packageType;
+    protected string $packageType;
 
     /**
      * The mail service type.
      */
-    protected ServiceType $serviceType;
+    protected string $serviceType;
 
     /**
      * The sender's address.
@@ -76,7 +76,7 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function setFrom(AddressInterface $from): static
+    public function setFrom(AddressInterface $from): self
     {
         $this->from = $from;
         return $this;
@@ -93,7 +93,7 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function setTo(AddressInterface $to): static
+    public function setTo(AddressInterface $to): self
     {
         $this->to = $to;
         return $this;
@@ -110,7 +110,7 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function setIsSampleOnly(bool $flag): static
+    public function setIsSampleOnly(bool $flag): self
     {
         $this->isSampleOnly = $flag;
         return $this;
@@ -127,7 +127,7 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function setImageType(ImageType $type): static
+    public function setImageType(string $type): self
     {
         $this->imageType = $type;
         return $this;
@@ -136,7 +136,7 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function getImageType(): ImageType
+    public function getImageType(): string
     {
         return $this->imageType;
     }
@@ -144,7 +144,7 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function setPackageType(PackageType $type): static
+    public function setPackageType(string $type): self
     {
         $this->packageType = $type;
         return $this;
@@ -153,7 +153,7 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function getPackageType(): PackageType
+    public function getPackageType(): string
     {
         return $this->packageType;
     }
@@ -161,7 +161,7 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function setServiceType(ServiceType $type): static
+    public function setServiceType(string $type): self
     {
         $this->serviceType = $type;
         return $this;
@@ -170,7 +170,7 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function getServiceType(): ServiceType
+    public function getServiceType(): string
     {
         return $this->serviceType;
     }
@@ -178,7 +178,7 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function setWeightOz(float $weight): static
+    public function setWeightOz(float $weight): self
     {
         $this->weightOz = $weight;
         return $this;
@@ -195,7 +195,7 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function setShipDate(string $date): static
+    public function setShipDate(string $date): self
     {
         $this->shipDate = date('Y-m-d', strtotime($date));
         return $this;
@@ -212,7 +212,7 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function setShowPrice(bool $flag): static
+    public function setShowPrice(bool $flag): self
     {
         $this->showPrice = $flag;
         return $this;
@@ -270,8 +270,8 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
             'WeightLb' => '0.0',
             'ShipDate' => $this->shipDate,
 
-            'ServiceType' => $this->serviceType->value,
-            'PackageType' => $this->packageType->value,
+            'ServiceType' => $this->serviceType,
+            'PackageType' => $this->packageType,
             'InsuredValue' => '0.0',
             'AddOns' => []
         ];
@@ -295,7 +295,7 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
             'Authenticator' => $this->getAuthToken(),
             'IntegratorTxID' => time(),
             'SampleOnly' => $this->isSampleOnly,
-            'ImageType' => $this->imageType->value,
+            'ImageType' => $this->imageType,
 
             'Rate' => $rateOptions,
 

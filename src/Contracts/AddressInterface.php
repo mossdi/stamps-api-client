@@ -9,9 +9,9 @@ interface AddressInterface
 {
     /**
      * @param string $fullName
-     * @return $this
+     * @return self
      */
-    public function setFullName(string $fullName): static;
+    public function setFullName(string $fullName): self;
 
     /**
      * @return string
@@ -20,9 +20,9 @@ interface AddressInterface
 
     /**
      * @param string $address1
-     * @return $this
+     * @return self
      */
-    public function setAddress1(string $address1): static;
+    public function setAddress1(string $address1): self;
 
     /**
      * @return string
@@ -31,9 +31,9 @@ interface AddressInterface
 
     /**
      * @param string $address2
-     * @return $this
+     * @return self
      */
-    public function setAddress2(string $address2): static;
+    public function setAddress2(string $address2): self;
 
     /**
      * @return string
@@ -42,9 +42,9 @@ interface AddressInterface
 
     /**
      * @param string $city
-     * @return $this
+     * @return self
      */
-    public function setCity(string $city): static;
+    public function setCity(string $city): self;
 
     /**
      * @return string
@@ -53,9 +53,9 @@ interface AddressInterface
 
     /**
      * @param string $state
-     * @return $this
+     * @return self
      */
-    public function setState(string $state): static;
+    public function setState(string $state): self;
 
     /**
      * @return string
@@ -64,9 +64,9 @@ interface AddressInterface
 
     /**
      * @param string $zipcode
-     * @return $this
+     * @return self
      */
-    public function setZipcode(string $zipcode): static;
+    public function setZipcode(string $zipcode): self;
 
     /**
      * @return string
@@ -75,9 +75,9 @@ interface AddressInterface
 
     /**
      * @param string $country
-     * @return $this
+     * @return self
      */
-    public function setCountry(string $country = 'US'): static;
+    public function setCountry(string $country = 'US'): self;
 
     /**
      * @return string
