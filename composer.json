@@ -1,5 +1,5 @@
 {
-    "name": "panacea/stamps-client",
+    "name": "panacea/stamps-api-client",
     "description": "A Stamps.com API integration.",
     "type": "library",
     "license": "MIT",
