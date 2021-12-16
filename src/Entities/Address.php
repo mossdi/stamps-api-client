@@ -26,7 +26,7 @@ class Address implements AddressInterface
     /**
      * {@inheritdoc}
      */
-    public function setFullName(string $fullName): static
+    public function setFullName(string $fullName): self
     {
         $this->fullName = $fullName;
         return $this;
@@ -43,7 +43,7 @@ class Address implements AddressInterface
     /**
      * {@inheritdoc}
      */
-    public function setAddress1(string $address1): static
+    public function setAddress1(string $address1): self
     {
         $this->address1 = $address1;
         return $this;
@@ -60,7 +60,7 @@ class Address implements AddressInterface
     /**
      * {@inheritdoc}
      */
-    public function setAddress2(string $address2): static
+    public function setAddress2(string $address2): self
     {
         $this->address2 = $address2;
         return $this;
@@ -77,7 +77,7 @@ class Address implements AddressInterface
     /**
      * {@inheritdoc}
      */
-    public function setCity(string $city): static
+    public function setCity(string $city): self
     {
         $this->city = $city;
         return $this;
@@ -94,7 +94,7 @@ class Address implements AddressInterface
     /**
      * {@inheritdoc}
      */
-    public function setState(string $state): static
+    public function setState(string $state): self
     {
         $this->state = $state;
         return $this;
@@ -111,7 +111,7 @@ class Address implements AddressInterface
     /**
      * {@inheritdoc}
      */
-    public function setZipcode(string $zipcode): static
+    public function setZipcode(string $zipcode): self
     {
         $this->zipcode = $zipcode;
         return $this;
@@ -128,7 +128,7 @@ class Address implements AddressInterface
     /**
      * {@inheritdoc}
      */
-    public function setCountry(string $country = 'US'): static
+    public function setCountry(string $country = 'US'): self
     {
         $this->country = $country;
         return $this;

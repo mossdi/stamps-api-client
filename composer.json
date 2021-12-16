@@ -1,5 +1,5 @@
 {
-    "name": "panacea/stamps-client",
+    "name": "panacea/stamps-api-client",
     "description": "A Stamps.com API integration.",
     "type": "library",
     "license": "MIT",
@@ -12,7 +12,8 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^7.4",
+        "ext-curl": "*",
         "ext-soap": "*"
     },
     "autoload": {

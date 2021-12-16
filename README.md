@@ -1,6 +1,6 @@
-# Stamps Client
+# Stamps API Client
 
-A Stamps.com SOAP integration.
+A Stamps.com API integration.
 
 ### Usage
 

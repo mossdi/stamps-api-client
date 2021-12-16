@@ -9,9 +9,9 @@ interface ClientInterface
 {
     /**
      * @param string $url
-     * @return $this
+     * @return self
      */
-    public function setApiUrl(string $url): static;
+    public function setApiUrl(string $url): self;
 
     /**
      * @return string
@@ -20,9 +20,9 @@ interface ClientInterface
 
     /**
      * @param string $integrationId
-     * @return $this
+     * @return self
      */
-    public function setApiIntegrationId(string $integrationId): static;
+    public function setApiIntegrationId(string $integrationId): self;
 
     /**
      * @return string
@@ -31,9 +31,9 @@ interface ClientInterface
 
     /**
      * @param string $userId
-     * @return $this
+     * @return self
      */
-    public function setApiUserId(string $userId): static;
+    public function setApiUserId(string $userId): self;
 
     /**
      * @return string
@@ -42,9 +42,9 @@ interface ClientInterface
 
     /**
      * @param string $password
-     * @return $this
+     * @return self
      */
-    public function setApiPassword(string $password): static;
+    public function setApiPassword(string $password): self;
 
     /**
      * @return string
