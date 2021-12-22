@@ -71,9 +71,9 @@ class ShippingLabel implements ShippingLabelInterface
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(StampsClientService $stampsClientService)
     {
-        $this->stampsClientService = new StampsClientService();
+        $this->stampsClientService = $stampsClientService;
 
         $this->imageType = ImageType::PNG;
         $this->packageType = PackageType::THICK_ENVELOPE;
