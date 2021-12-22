@@ -39,7 +39,6 @@ try {
         ->setShipDate('2018-01-17')
         ->setShowPrice(false);
 
-    // Generate label and get URL to the PDF or PNG
     // Takes an optional filename argument to save label to file
     $labelUrl = $shippingLabel->create();
 } catch(Exception $e) {
