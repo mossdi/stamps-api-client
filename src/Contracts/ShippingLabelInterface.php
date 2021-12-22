@@ -3,6 +3,7 @@
 namespace Panacea\Stamps\Contracts;
 
 use Exception;
+use Panacea\Stamps\Dto\ShippingLabel;
 
 /**
  * Client interface to generate shipping labels.
@@ -13,10 +14,10 @@ interface ShippingLabelInterface
      * Generates shipping label and optionally saves to file.
      *
      * @param string|null $filename
-     * @return string The URL to the generated label.
+     * @return ShippingLabel
      * @throws Exception
      */
-    public function create(string $filename = null): string;
+    public function create(string $filename = null): ShippingLabel;
 
     /**
      * @param AddressInterface $from

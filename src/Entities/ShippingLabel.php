@@ -229,7 +229,7 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     /**
      * {@inheritdoc}
      */
-    public function create(string $filename = null): string
+    public function create(string $filename = null): \Panacea\Stamps\Dto\ShippingLabel
     {
         // 1. Check account balance
 
@@ -330,6 +330,9 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
             fclose($fp);
         }
 
-        return $indiciumResponse->URL;
+        return new \Panacea\Stamps\Dto\ShippingLabel(
+            $indiciumResponse->TrackingNumber,
+            $indiciumResponse->URL
+        );
     }
 }
