@@ -244,7 +244,7 @@ class ShippingLabel implements ShippingLabelInterface
         $accountInfoResponse = $this->stampsClientService->getAccountInfo();
         $availableBalance = (double)$accountInfoResponse->AccountInfo->PostageBalance->AvailablePostage;
 
-        if ($availableBalance < 3) {
+        if (!$this->isSampleOnly && $availableBalance < 3) {
             throw new ApiException('Insufficient funds: ' . $availableBalance);
         }
 
@@ -263,18 +263,29 @@ class ShippingLabel implements ShippingLabelInterface
             throw new ApiException('Invalid to address.');
         }
 
-        // 3. Get rates
+        // 3. Generate label
 
         $rateOptions = [
-            'FromZIPCode' => $this->from->getZipcode(),
-            'ToZIPCode' => $this->to->getZipcode(),
+            'From' => [
+                'FullName' => $this->from->getFullName(),
+                'Address1' => $this->from->getAddress1(),
+                'Address2' => $this->from->getAddress2(),
+                'City' => $this->from->getCity(),
+                'State' => $this->from->getState(),
+                'ZIPCode' => $this->from->getZipcode()
+            ],
+            'To' => [
+                'FullName' => $this->to->getFullName(),
+                'Address1' => $this->to->getAddress1(),
+                'Address2' => $this->to->getAddress2(),
+                'City' => $this->to->getCity(),
+                'State' => $this->to->getState(),
+                'ZIPCode' => $this->to->getZipcode()
+            ],
             'WeightOz' => $this->weightOz,
-            'WeightLb' => '0.0',
             'ShipDate' => $this->shipDate,
-
             'ServiceType' => $this->serviceType,
             'PackageType' => $this->packageType,
-            'InsuredValue' => '0.0',
             'AddOns' => []
         ];
 
@@ -284,39 +295,21 @@ class ShippingLabel implements ShippingLabelInterface
             ];
         }
 
-        $rates = $this->stampsClientService->getRates($rateOptions);
-        $rateOptions['Rate']['Amount'] = $rates->Rates->Rate->Amount;
-
-        // 4. Generate label
-
         $indiciumResponse = $this->stampsClientService->createIndicium([
             'IntegratorTxID' => time(),
             'SampleOnly' => $this->isSampleOnly,
             'ImageType' => $this->imageType,
-
             'Rate' => $rateOptions,
-
-            'From' => [
-                'FullName' => $this->from->getFullName(),
-                'Address1' => $this->from->getAddress1(),
-                'Address2' => $this->from->getAddress2(),
-                'City' => $this->from->getCity(),
-                'State' => $this->from->getState(),
-                'ZIPCode' => $this->from->getZipcode()
-            ],
-
-            'To' => [
-                'FullName' => $this->to->getFullName(),
-                'Address1' => $this->to->getAddress1(),
-                'Address2' => $this->to->getAddress2(),
-                'City' => $this->to->getCity(),
-                'State' => $this->to->getState(),
-                'ZIPCode' => $this->to->getZipcode()
-            ]
         ]);
 
-        $rate = new Rate($indiciumResponse->Rate->Amount);
-        $label = new Label($indiciumResponse->URL, mb_strtolower($this->getImageType()));
+        $rate = new Rate(
+            $indiciumResponse->Rate->Amount
+        );
+
+        $label = new Label(
+            $indiciumResponse->URL,
+            mb_strtolower($this->getImageType())
+        );
 
         if ($filename) {
             $ch = curl_init($indiciumResponse->URL);
