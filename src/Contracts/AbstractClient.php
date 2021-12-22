@@ -21,10 +21,10 @@ abstract class AbstractClient
     /**
      * @throws Exception
      */
-    public function __construct(string $wsdl)
+    public function __construct(string $apiUrl)
     {
-        $this->soapClient = new SoapClient($wsdl, ['exceptions' => true]);
-        $this->soapClient->__setLocation($wsdl);
+        $this->soapClient = new SoapClient(sprintf('%s?WSDL', $apiUrl), ['exceptions' => true]);
+        $this->soapClient->__setLocation($apiUrl);
     }
 
     /**

@@ -30,15 +30,15 @@ interface AddressInterface
     public function getAddress1(): string;
 
     /**
-     * @param string $address2
+     * @param string|null $address2
      * @return self
      */
-    public function setAddress2(string $address2): self;
+    public function setAddress2(?string $address2): self;
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getAddress2(): string;
+    public function getAddress2(): ?string;
 
     /**
      * @param string $city

@@ -20,7 +20,7 @@ class StampsClientService extends AbstractClient
         string $apiPassword,
         string $apiUrl
     ) {
-        parent::__construct(sprintf('%s?WSDL', $apiUrl));
+        parent::__construct($apiUrl);
 
         $this->setApiIntegrationId($apiIntegrationId);
         $this->setApiUserId($apiUserId);
