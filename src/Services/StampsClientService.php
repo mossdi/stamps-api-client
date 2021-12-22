@@ -2,10 +2,32 @@
 
 namespace Panacea\Stamps\Services;
 
+use Exception;
 use Panacea\Stamps\Contracts\AbstractClient;
 
 class StampsClientService extends AbstractClient
 {
+    /**
+     * @param string $apiIntegrationId
+     * @param string $apiUserId
+     * @param string $apiPassword
+     * @param string|null $apiUrl
+     * @throws Exception
+     */
+    public function __construct(
+        string $apiIntegrationId,
+        string $apiUserId,
+        string $apiPassword,
+        string $apiUrl = null
+    ) {
+        parent::__construct();
+
+        $this->setApiIntegrationId($apiIntegrationId);
+        $this->setApiUserId($apiUserId);
+        $this->setApiPassword($apiPassword);
+        if (!is_null($apiUrl)) $this->setApiUrl($apiUrl);
+    }
+
     /**
      * @param array $labelOptions
      * @return mixed
