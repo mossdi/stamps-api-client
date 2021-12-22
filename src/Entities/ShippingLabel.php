@@ -3,6 +3,8 @@
 namespace Panacea\Stamps\Entities;
 
 use Exception as ApiException;
+use Panacea\Stamps\Dto\Label;
+use Panacea\Stamps\Dto\Rate;
 use Panacea\Stamps\Enums\ImageType;
 use Panacea\Stamps\Enums\PackageType;
 use Panacea\Stamps\Enums\ServiceType;
@@ -320,6 +322,9 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
 
         $indiciumResponse = $this->soapClient->CreateIndicium($labelOptions);
 
+        $rate = new Rate($indiciumResponse->Rate->Amount);
+        $label = new Label($indiciumResponse->URL, mb_strtolower($this->getImageType()));
+
         if ($filename) {
             $ch = curl_init($indiciumResponse->URL);
             $fp = fopen($filename, 'wb');
@@ -328,11 +333,16 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
             curl_exec($ch);
             curl_close($ch);
             fclose($fp);
+
+            // TODO: Refactor / Do it without file saving
+            $label->setContent(file_get_contents($filename));
         }
 
         return new \Panacea\Stamps\Dto\ShippingLabel(
+            $indiciumResponse->StampsTxID,
             $indiciumResponse->TrackingNumber,
-            $indiciumResponse->URL
+            $label,
+            $rate
         );
     }
 }
