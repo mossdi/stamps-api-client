@@ -31,6 +31,24 @@ abstract class AbstractClient implements ClientInterface
     }
 
     /**
+     * Gets the auth token for API requests.
+     *
+     * @return string
+     */
+    final public function getAuthToken(): string
+    {
+        $response = $this->soapClient->AuthenticateUser([
+            'Credentials' => [
+                'IntegrationID' => $this->apiIntegrationId,
+                'Username' => $this->apiUserId,
+                'Password' => $this->apiPassword
+            ]
+        ]);
+
+        return $response->Authenticator;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function setApiUrl(string $url): self
@@ -97,23 +115,5 @@ abstract class AbstractClient implements ClientInterface
     public function getApiPassword(): string
     {
         return $this->apiPassword;
-    }
-
-    /**
-     * Gets the auth token for API requests.
-     *
-     * @return string
-     */
-    protected function getAuthToken(): string
-    {
-        $response = $this->soapClient->AuthenticateUser([
-            'Credentials' => [
-                'IntegrationID' => $this->apiIntegrationId,
-                'Username' => $this->apiUserId,
-                'Password' => $this->apiPassword
-            ]
-        ]);
-
-        return $response->Authenticator;
     }
 }

@@ -8,15 +8,20 @@ use Panacea\Stamps\Dto\Rate;
 use Panacea\Stamps\Enums\ImageType;
 use Panacea\Stamps\Enums\PackageType;
 use Panacea\Stamps\Enums\ServiceType;
-use Panacea\Stamps\Contracts\AbstractClient;
 use Panacea\Stamps\Contracts\AddressInterface;
 use Panacea\Stamps\Contracts\ShippingLabelInterface;
+use Panacea\Stamps\Services\StampsClientService;
 
 /**
  * Client to generate shipping labels.
  */
-class ShippingLabel extends AbstractClient implements ShippingLabelInterface
+class ShippingLabel implements ShippingLabelInterface
 {
+    /**
+     * Service with client
+     */
+    private StampsClientService $stampsClientService;
+
     /**
      * If true, generates a sample label without real value.
      */
@@ -64,11 +69,12 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     protected string $shipDate;
 
     /**
-     * {@inheritdoc}
+     * Constructor
      */
     public function __construct()
     {
-        parent::__construct();
+        $this->stampsClientService = new StampsClientService();
+
         $this->imageType = ImageType::PNG;
         $this->packageType = PackageType::THICK_ENVELOPE;
         $this->serviceType = ServiceType::FC;
@@ -235,10 +241,7 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
     {
         // 1. Check account balance
 
-        $accountInfoResponse = $this->soapClient->GetAccountInfo([
-            'Authenticator' => $this->getAuthToken()
-        ]);
-
+        $accountInfoResponse = $this->stampsClientService->getAccountInfo();
         $availableBalance = (double)$accountInfoResponse->AccountInfo->PostageBalance->AvailablePostage;
 
         if ($availableBalance < 3) {
@@ -247,16 +250,13 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
 
         // 2. Cleanse recipient address
 
-        $cleanseToAddressResponse = $this->soapClient->CleanseAddress([
-            'Authenticator' => $this->getAuthToken(),
-            'Address' => [
-                'FullName' => $this->to->getFullName(),
-                'Address1' => $this->to->getAddress1(),
-                'Address2' => $this->to->getAddress2(),
-                'City' => $this->to->getCity(),
-                'State' => $this->to->getState(),
-                'ZIPcode' => $this->to->getZipcode()
-            ]
+        $cleanseToAddressResponse = $this->stampsClientService->cleanseAddress([
+            'FullName' => $this->to->getFullName(),
+            'Address1' => $this->to->getAddress1(),
+            'Address2' => $this->to->getAddress2(),
+            'City' => $this->to->getCity(),
+            'State' => $this->to->getState(),
+            'ZIPcode' => $this->to->getZipcode()
         ]);
 
         if (!$cleanseToAddressResponse->CityStateZipOK) {
@@ -284,17 +284,12 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
             ];
         }
 
-        $rates = $this->soapClient->GetRates([
-            'Authenticator' => $this->getAuthToken(),
-            'Rate' => $rateOptions
-        ]);
-
+        $rates = $this->stampsClientService->getRates($rateOptions);
         $rateOptions['Rate']['Amount'] = $rates->Rates->Rate->Amount;
 
         // 4. Generate label
 
-        $labelOptions = [
-            'Authenticator' => $this->getAuthToken(),
+        $indiciumResponse = $this->stampsClientService->createIndicium([
             'IntegratorTxID' => time(),
             'SampleOnly' => $this->isSampleOnly,
             'ImageType' => $this->imageType,
@@ -318,9 +313,7 @@ class ShippingLabel extends AbstractClient implements ShippingLabelInterface
                 'State' => $this->to->getState(),
                 'ZIPCode' => $this->to->getZipcode()
             ]
-        ];
-
-        $indiciumResponse = $this->soapClient->CreateIndicium($labelOptions);
+        ]);
 
         $rate = new Rate($indiciumResponse->Rate->Amount);
         $label = new Label($indiciumResponse->URL, mb_strtolower($this->getImageType()));
