@@ -60,7 +60,7 @@ class Address implements AddressInterface
     /**
      * {@inheritdoc}
      */
-    public function setAddress2(string $address2): self
+    public function setAddress2(?string $address2): self
     {
         $this->address2 = $address2;
         return $this;

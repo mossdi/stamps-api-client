@@ -18,14 +18,13 @@ class StampsClientService extends AbstractClient
         string $apiIntegrationId,
         string $apiUserId,
         string $apiPassword,
-        string $apiUrl = null
+        string $apiUrl
     ) {
-        parent::__construct();
+        parent::__construct($apiUrl);
 
         $this->setApiIntegrationId($apiIntegrationId);
         $this->setApiUserId($apiUserId);
         $this->setApiPassword($apiPassword);
-        if (!is_null($apiUrl)) $this->setApiUrl($apiUrl);
     }
 
     /**

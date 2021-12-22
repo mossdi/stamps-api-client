@@ -8,10 +8,8 @@ use SoapClient;
 /**
  * Base API client.
  */
-abstract class AbstractClient implements ClientInterface
+abstract class AbstractClient
 {
-    protected string $apiUrl = 'https://swsim.stamps.com/swsim/swsimv35.asmx?WSDL';
-
     protected string $apiIntegrationId;
 
     protected string $apiUserId;
@@ -23,16 +21,13 @@ abstract class AbstractClient implements ClientInterface
     /**
      * @throws Exception
      */
-    public function __construct()
+    public function __construct(string $wsdl)
     {
-        $this->soapClient = new SoapClient($this->apiUrl, [
-            'exceptions' => true
-        ]);
+        $this->soapClient = new SoapClient($wsdl, ['exceptions' => true]);
+        $this->soapClient->__setLocation($wsdl);
     }
 
     /**
-     * Gets the auth token for API requests.
-     *
      * @return string
      */
     final public function getAuthToken(): string
@@ -49,71 +44,32 @@ abstract class AbstractClient implements ClientInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $integrationId
+     * @return $this
      */
-    public function setApiUrl(string $url): self
-    {
-        $this->apiUrl = $url;
-        $this->soapClient->__setLocation($this->apiUrl);
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getApiUrl(): string
-    {
-        return $this->apiUrl;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setApiIntegrationId(string $integrationId): self
+    protected function setApiIntegrationId(string $integrationId): self
     {
         $this->apiIntegrationId = $integrationId;
         return $this;
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $userId
+     * @return $this
      */
-    public function getApiIntegrationId(): string
-    {
-        return $this->apiIntegrationId;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setApiUserId(string $userId): self
+    protected function setApiUserId(string $userId): self
     {
         $this->apiUserId = $userId;
         return $this;
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $password
+     * @return $this
      */
-    public function getApiUserId(): string
-    {
-        return $this->apiUserId;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setApiPassword(string $password): self
+    protected function setApiPassword(string $password): self
     {
         $this->apiPassword = $password;
         return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getApiPassword(): string
-    {
-        return $this->apiPassword;
     }
 }
