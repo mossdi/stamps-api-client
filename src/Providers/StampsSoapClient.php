@@ -14,6 +14,7 @@ class StampsSoapClient extends BaseClient
      * @param string $apiPassword
      * @param string|null $apiUrl
      * @throws Exception
+     * // TODO: Credentials from ENV
      */
     public function __construct(
         string $apiIntegrationId,
