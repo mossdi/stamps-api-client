@@ -14,17 +14,31 @@ class CreateIndiciumResponse implements Dto
     private string $url;
 
     /**
-     * @param $createIndiciumResponse
+     * @inheritDoc
      * @return $this
      */
-    public function fillFromRaw($createIndiciumResponse): self
+    public function fillFromSoap($createIndiciumResponse): self
     {
         return $this
-            ->setRate((new Rate())->fillFromRaw($createIndiciumResponse->Rate))
+            ->setRate((new Rate())->fillFromSoap($createIndiciumResponse->Rate))
             ->setLabel(new Label($createIndiciumResponse->URL))
             ->setTrackingNumber($createIndiciumResponse->TrackingNumber)
             ->setStampsTxID($createIndiciumResponse->StampsTxID)
             ->setUrl($createIndiciumResponse->URL);
+    }
+
+    /**
+     * @inheritDoc
+     * @return $this
+     */
+    public function fillFromArray($createIndiciumResponse): self
+    {
+        return $this
+            ->setRate((new Rate())->fillFromSoap($createIndiciumResponse['Rate']))
+            ->setLabel(new Label($createIndiciumResponse['URL']))
+            ->setTrackingNumber($createIndiciumResponse['TrackingNumber'])
+            ->setStampsTxID($createIndiciumResponse['StampsTxID'])
+            ->setUrl($createIndiciumResponse['URL']);
     }
 
     /**

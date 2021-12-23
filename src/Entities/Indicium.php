@@ -117,7 +117,7 @@ class Indicium
             'Rate' => $rateOptions,
         ]);
 
-        return (new CreateIndiciumResponse())->fillFromRaw($indiciumResponse);
+        return (new CreateIndiciumResponse())->fillFromSoap($indiciumResponse);
     }
 
     /**

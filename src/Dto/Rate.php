@@ -17,14 +17,14 @@ class Rate implements Dto
     private string $deliveryDate;
 
     /**
-     * @param $rate
+     * @inheritDoc
      * @return $this
      */
-    public function fillFromRaw($rate)
+    public function fillFromSoap($rate)
     {
         return $this
-            ->setFrom((new Address())->fillFromRaw($rate->From))
-            ->setTo((new Address())->fillFromRaw($rate->To))
+            ->setFrom((new Address())->fillFromSoap($rate->From))
+            ->setTo((new Address())->fillFromSoap($rate->To))
             ->setAmount($rate->Amount)
             ->setServiceType($rate->ServiceType)
             ->setDeliverDays($rate->DeliverDays)
@@ -32,6 +32,24 @@ class Rate implements Dto
             ->setPackageType($rate->PackageType)
             ->setShippingDate($rate->ShipDate)
             ->setDeliveryDate($rate->DeliveryDate);
+    }
+
+    /**
+     * @inheritDoc
+     * @return $this
+     */
+    public function fillFromArray($rate): self
+    {
+        return $this
+            ->setFrom((new Address())->fillFromSoap($rate['From']))
+            ->setTo((new Address())->fillFromSoap($rate['To']))
+            ->setAmount($rate['Amount'])
+            ->setServiceType($rate['ServiceType'])
+            ->setDeliverDays($rate['DeliverDays'])
+            ->setWeightOz($rate['WeightOz'])
+            ->setPackageType($rate['PackageType'])
+            ->setShippingDate($rate['ShipDate'])
+            ->setDeliveryDate($rate['DeliveryDate']);
     }
 
     /**

@@ -8,5 +8,11 @@ interface Dto
      * @param $data
      * @return mixed
      */
-    public function fillFromRaw($data);
+    public function fillFromSoap($data);
+
+    /**
+     * @param $data
+     * @return mixed
+     */
+    public function fillFromArray($data);
 }

@@ -39,7 +39,7 @@ class StampsSoapClient extends BaseClient
         if (!$labelOptions['SampleOnly']) $this->checkAccountBalance();
 
         // 2. Cleanse recipient address
-        $this->cleanseAddress($labelOptions['Rate']['To']);
+        $this->cleanseAddress((new Address())->fillFromArray($labelOptions['Rate']['To']));
 
         $labelOptions['Authenticator'] = $this->getAuthToken();
         return $this->soapClient->CreateIndicium($labelOptions);

@@ -15,10 +15,10 @@ class Address implements Dto
     private string $country = 'US';
 
     /**
-     * @param $address
+     * @inheritDoc
      * @return $this
      */
-    public function fillFromRaw($address): self
+    public function fillFromSoap($address): self
     {
         return $this
             ->setFullName($address->FullName)
@@ -27,6 +27,21 @@ class Address implements Dto
             ->setCity($address->City)
             ->setState($address->State)
             ->setZipcode($address->ZIPCode);
+    }
+
+    /**
+     * @inheritDoc
+     * @return $this
+     */
+    public function fillFromArray($address): self
+    {
+        return $this
+            ->setFullName($address['FullName'])
+            ->setAddress1($address['Address1'])
+            ->setAddress2($address['Address2'] ?? '')
+            ->setCity($address['City'])
+            ->setState($address['State'])
+            ->setZipcode($address['ZIPCode']);
     }
 
     /**
