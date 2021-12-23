@@ -5,18 +5,12 @@ namespace Panacea\Stamps\Contracts;
 use Exception;
 use SoapClient;
 
-/**
- * Base API client.
- */
-abstract class AbstractClient
+abstract class BaseClient
 {
-    protected string $apiIntegrationId;
-
-    protected string $apiUserId;
-
-    protected string $apiPassword;
-
     protected SoapClient $soapClient;
+    protected string $apiIntegrationId;
+    protected string $apiUserId;
+    protected string $apiPassword;
 
     /**
      * @throws Exception
@@ -25,22 +19,6 @@ abstract class AbstractClient
     {
         $this->soapClient = new SoapClient(sprintf('%s?WSDL', $apiUrl), ['exceptions' => true]);
         $this->soapClient->__setLocation($apiUrl);
-    }
-
-    /**
-     * @return string
-     */
-    final public function getAuthToken(): string
-    {
-        $response = $this->soapClient->AuthenticateUser([
-            'Credentials' => [
-                'IntegrationID' => $this->apiIntegrationId,
-                'Username' => $this->apiUserId,
-                'Password' => $this->apiPassword
-            ]
-        ]);
-
-        return $response->Authenticator;
     }
 
     /**

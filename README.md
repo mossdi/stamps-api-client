@@ -24,7 +24,7 @@ $from = (new \Panacea\Stamps\Contracts\Address)
     ->setCountry('US');
 
 try {
-    $shippingLabel = (new \Panacea\Stamps\Entities\ShippingLabel)
+    $shippingLabel = (new \Panacea\Stamps\Entities\Indicium)
         ->setApiUrl('API_URL') // Leave out for default
         ->setApiIntegrationId('YOUR_API_INTEGRATION_ID')
         ->setApiUserId('YOUR_API_USER_ID')

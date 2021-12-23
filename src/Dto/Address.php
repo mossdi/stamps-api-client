@@ -1,30 +1,37 @@
 <?php
 
-namespace Panacea\Stamps\Entities;
+namespace Panacea\Stamps\Dto;
 
-use Panacea\Stamps\Contracts\AddressInterface;
+use Panacea\Stamps\Contracts\Dto;
 
-/**
- * Class to represent a mailing address for a shipping label.
- */
-class Address implements AddressInterface
+class Address implements Dto
 {
-    protected string $fullName;
-
-    protected string $address1;
-
-    protected string $address2;
-
-    protected string $city;
-
-    protected string $state;
-
-    protected string $zipcode;
-
-    protected string $country = 'US';
+    private string $fullName;
+    private string $address1;
+    private string $address2;
+    private string $city;
+    private string $state;
+    private string $zipcode;
+    private string $country = 'US';
 
     /**
-     * {@inheritdoc}
+     * @param $address
+     * @return $this
+     */
+    public function fillFromRaw($address): self
+    {
+        return $this
+            ->setFullName($address->FullName)
+            ->setAddress1($address->Address1)
+            ->setAddress2($address->Address2 ?? '')
+            ->setCity($address->City)
+            ->setState($address->State)
+            ->setZipcode($address->ZIPCode);
+    }
+
+    /**
+     * @param string $fullName
+     * @return $this
      */
     public function setFullName(string $fullName): self
     {
@@ -33,7 +40,7 @@ class Address implements AddressInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getFullName(): string
     {
@@ -41,7 +48,8 @@ class Address implements AddressInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $address1
+     * @return $this
      */
     public function setAddress1(string $address1): self
     {
@@ -50,7 +58,7 @@ class Address implements AddressInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getAddress1(): string
     {
@@ -58,7 +66,8 @@ class Address implements AddressInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string|null $address2
+     * @return $this
      */
     public function setAddress2(?string $address2): self
     {
@@ -67,7 +76,7 @@ class Address implements AddressInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getAddress2(): string
     {
@@ -75,7 +84,8 @@ class Address implements AddressInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $city
+     * @return $this
      */
     public function setCity(string $city): self
     {
@@ -84,7 +94,7 @@ class Address implements AddressInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getCity(): string
     {
@@ -92,7 +102,8 @@ class Address implements AddressInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $state
+     * @return $this
      */
     public function setState(string $state): self
     {
@@ -101,7 +112,7 @@ class Address implements AddressInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getState(): string
     {
@@ -109,7 +120,8 @@ class Address implements AddressInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $zipcode
+     * @return $this
      */
     public function setZipcode(string $zipcode): self
     {
@@ -118,7 +130,7 @@ class Address implements AddressInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getZipcode(): string
     {
@@ -126,7 +138,8 @@ class Address implements AddressInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $country
+     * @return $this
      */
     public function setCountry(string $country = 'US'): self
     {
@@ -135,7 +148,7 @@ class Address implements AddressInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getCountry(): string
     {
