@@ -14,54 +14,74 @@ class Indicium
 {
     /**
      * Service with client
+     *
+     * @var StampsSoapClient
      */
-    private StampsSoapClient $stampsClientService;
+    private $stampsClientService;
 
     /**
      * The sender's address.
+     *
+     * @var Address
      */
-    protected Address $from;
+    protected $from;
 
     /**
      * The recipient's address.
+     *
+     * @var Address
      */
-    protected Address $to;
+    protected $to;
 
     /**
      * If true, generates a sample label without real value.
+     *
+     * @var bool
      */
-    protected bool $isSampleOnly = true;
+    protected $isSampleOnly = true;
 
     /**
      * If true, the price will not be printed on the label.
+     *
+     * @var bool
      */
-    protected bool $showPrice = false;
+    protected $showPrice = false;
 
     /**
      * The weight of the package in ounces.
+     *
+     * @var float
      */
-    protected float $weightOz = 0.0;
+    protected $weightOz = 0.0;
 
     /**
      * The file type of shipping label.
+     *
+     * @var string
      */
-    protected string $imageType;
+    protected $imageType;
 
     /**
      * The package type.
+     *
+     * @var string
      */
-    protected string $packageType;
+    protected $packageType;
 
     /**
      * The mail service type.
+     *
+     * @var string
      */
-    protected string $serviceType;
+    protected $serviceType;
 
     /**
      * This is the date the package will be picked up or officially enter the mail system.
      * Defaults to the current date('Y-m-d').
+     *
+     * @var string
      */
-    protected string $shipDate;
+    protected $shipDate;
 
     /**
      * Constructor

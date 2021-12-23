@@ -6,15 +6,50 @@ use Panacea\Stamps\Contracts\Dto;
 
 class Rate implements Dto
 {
-    private Address $from;
-    private Address $to;
-    private float $amount;
-    private string $serviceType;
-    private int $deliverDays;
-    private int $weightOz;
-    private string $packageType;
-    private string $shippingDate;
-    private string $deliveryDate;
+    /**
+     * @var Address
+     */
+    private $from;
+
+    /**
+     * @var Address
+     */
+    private $to;
+
+    /**
+     * @var float
+     */
+    private $amount;
+
+    /**
+     * @var string
+     */
+    private $serviceType;
+
+    /**
+     * @var int
+     */
+    private $deliverDays;
+
+    /**
+     * @var int
+     */
+    private $weightOz;
+
+    /**
+     * @var string
+     */
+    private $packageType;
+
+    /**
+     * @var string
+     */
+    private $shippingDate;
+
+    /**
+     * @var string
+     */
+    private $deliveryDate;
 
     /**
      * @inheritDoc

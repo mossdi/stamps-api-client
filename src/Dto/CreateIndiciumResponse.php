@@ -7,11 +7,30 @@ use Panacea\Stamps\Entities\Label;
 
 class CreateIndiciumResponse implements Dto
 {
-    private Rate $rate;
-    private Label $label;
-    private string $trackingNumber;
-    private string $stampsTxID;
-    private string $url;
+    /**
+     * @var Rate
+     */
+    private $rate;
+
+    /**
+     * @var Label
+     */
+    private $label;
+
+    /**
+     * @var string
+     */
+    private $trackingNumber;
+
+    /**
+     * @var string
+     */
+    private $stampsTxID;
+
+    /**
+     * @var string
+     */
+    private $url;
 
     /**
      * @inheritDoc

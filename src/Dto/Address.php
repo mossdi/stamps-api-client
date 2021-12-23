@@ -6,13 +6,40 @@ use Panacea\Stamps\Contracts\Dto;
 
 class Address implements Dto
 {
-    private string $fullName;
-    private string $address1;
-    private string $address2;
-    private string $city;
-    private string $state;
-    private string $zipcode;
-    private string $country = 'US';
+    /**
+     * @var string
+     */
+    private $fullName;
+
+    /**
+     * @var string
+     */
+    private $address1;
+
+    /**
+     * @var string
+     */
+    private $address2;
+
+    /**
+     * @var string
+     */
+    private $city;
+
+    /**
+     * @var string
+     */
+    private $state;
+
+    /**
+     * @var string
+     */
+    private $zipcode;
+
+    /**
+     * @var string
+     */
+    private $country = 'US';
 
     /**
      * @inheritDoc

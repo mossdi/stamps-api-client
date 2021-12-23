@@ -7,10 +7,25 @@ use SoapClient;
 
 abstract class BaseClient
 {
-    protected SoapClient $soapClient;
-    protected string $apiIntegrationId;
-    protected string $apiUserId;
-    protected string $apiPassword;
+    /**
+     * @var SoapClient
+     */
+    protected $soapClient;
+
+    /**
+     * @var string
+     */
+    protected $apiIntegrationId;
+
+    /**
+     * @var string
+     */
+    protected $apiUserId;
+
+    /**
+     * @var string
+     */
+    protected $apiPassword;
 
     /**
      * @throws Exception
