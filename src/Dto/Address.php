@@ -2,10 +2,13 @@
 
 namespace Panacea\Stamps\Dto;
 
-use Panacea\Stamps\Contracts\Dto;
+use Panacea\Stamps\Contracts\BaseDto;
+use Panacea\Stamps\Traits\InstanceBehavior;
 
-class Address implements Dto
+class Address implements BaseDto
 {
+    use InstanceBehavior;
+
     /**
      * @var string
      */
@@ -42,46 +45,6 @@ class Address implements Dto
     private $country = 'US';
 
     /**
-     * @inheritDoc
-     * @return $this
-     */
-    public function fillFromSoap($address): self
-    {
-        return $this
-            ->setFullName($address->FullName)
-            ->setAddress1($address->Address1)
-            ->setAddress2($address->Address2 ?? '')
-            ->setCity($address->City)
-            ->setState($address->State)
-            ->setZipcode($address->ZIPCode);
-    }
-
-    /**
-     * @inheritDoc
-     * @return $this
-     */
-    public function fillFromArray($address): self
-    {
-        return $this
-            ->setFullName($address['FullName'])
-            ->setAddress1($address['Address1'])
-            ->setAddress2($address['Address2'] ?? '')
-            ->setCity($address['City'])
-            ->setState($address['State'])
-            ->setZipcode($address['ZIPCode']);
-    }
-
-    /**
-     * @param string $fullName
-     * @return $this
-     */
-    public function setFullName(string $fullName): self
-    {
-        $this->fullName = $fullName;
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getFullName(): string
@@ -90,12 +53,12 @@ class Address implements Dto
     }
 
     /**
-     * @param string $address1
-     * @return $this
+     * @param string $fullName
+     * @return Address
      */
-    public function setAddress1(string $address1): self
+    public function setFullName(string $fullName): Address
     {
-        $this->address1 = $address1;
+        $this->fullName = $fullName;
         return $this;
     }
 
@@ -108,12 +71,12 @@ class Address implements Dto
     }
 
     /**
-     * @param string|null $address2
-     * @return $this
+     * @param string $address1
+     * @return Address
      */
-    public function setAddress2(?string $address2): self
+    public function setAddress1(string $address1): Address
     {
-        $this->address2 = $address2;
+        $this->address1 = $address1;
         return $this;
     }
 
@@ -126,12 +89,12 @@ class Address implements Dto
     }
 
     /**
-     * @param string $city
-     * @return $this
+     * @param string $address2
+     * @return Address
      */
-    public function setCity(string $city): self
+    public function setAddress2(string $address2): Address
     {
-        $this->city = $city;
+        $this->address2 = $address2;
         return $this;
     }
 
@@ -144,12 +107,12 @@ class Address implements Dto
     }
 
     /**
-     * @param string $state
-     * @return $this
+     * @param string $city
+     * @return Address
      */
-    public function setState(string $state): self
+    public function setCity(string $city): Address
     {
-        $this->state = $state;
+        $this->city = $city;
         return $this;
     }
 
@@ -162,12 +125,12 @@ class Address implements Dto
     }
 
     /**
-     * @param string $zipcode
-     * @return $this
+     * @param string $state
+     * @return Address
      */
-    public function setZipcode(string $zipcode): self
+    public function setState(string $state): Address
     {
-        $this->zipcode = $zipcode;
+        $this->state = $state;
         return $this;
     }
 
@@ -180,12 +143,12 @@ class Address implements Dto
     }
 
     /**
-     * @param string $country
-     * @return $this
+     * @param string $zipcode
+     * @return Address
      */
-    public function setCountry(string $country = 'US'): self
+    public function setZipcode(string $zipcode): Address
     {
-        $this->country = $country;
+        $this->zipcode = $zipcode;
         return $this;
     }
 
@@ -195,5 +158,58 @@ class Address implements Dto
     public function getCountry(): string
     {
         return $this->country;
+    }
+
+    /**
+     * @param string $country
+     * @return Address
+     */
+    public function setCountry(string $country): Address
+    {
+        $this->country = $country;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function toSoapArray(): array
+    {
+        return [
+            'FullName' => $this->getFullName(),
+            'Address1' => $this->getAddress1(),
+            'Address2' => $this->getAddress2(),
+            'City' => $this->getCity(),
+            'State' => $this->getState(),
+            'ZIPCode' => $this->getZipcode()
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function fillFromSoap($address): self
+    {
+        return $this
+            ->setFullName($address->FullName)
+            ->setAddress1($address->Address1)
+            ->setAddress2($address->Address2 ?? '')
+            ->setCity($address->City)
+            ->setState($address->State)
+            ->setZipcode($address->ZIPCode);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function fillFromArray($address): self
+    {
+        return $this
+            ->setFullName($address['FullName'])
+            ->setAddress1($address['Address1'])
+            ->setAddress2($address['Address2'] ?? '')
+            ->setCity($address['City'])
+            ->setState($address['State'])
+            ->setZipcode($address['ZIPCode']);
     }
 }

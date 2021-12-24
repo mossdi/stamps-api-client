@@ -4,6 +4,6 @@ namespace Panacea\Stamps\Entities;
 
 use SplFileObject;
 
-class Label extends SplFileObject
+class LabelFileObject extends SplFileObject
 {
 }

@@ -3,47 +3,33 @@
 namespace Panacea\Stamps\Providers;
 
 use Exception;
-use Panacea\Stamps\Contracts\BaseClient;
+use Panacea\Stamps\Enums\ImageType;
+use Panacea\Stamps\Contracts\BaseSoapClient;
 use Panacea\Stamps\Dto\Address;
+use Panacea\Stamps\Dto\Rate;
 
-class StampsSoapClient extends BaseClient
+class StampsSoapClient extends BaseSoapClient
 {
     /**
-     * @param string $apiIntegrationId
-     * @param string $apiUserId
-     * @param string $apiPassword
-     * @param string|null $apiUrl
-     * @throws Exception
-     * // TODO: Credentials from ENV
-     */
-    public function __construct(
-        string $apiIntegrationId,
-        string $apiUserId,
-        string $apiPassword,
-        string $apiUrl
-    ) {
-        parent::__construct($apiUrl);
-
-        $this->setApiIntegrationId($apiIntegrationId);
-        $this->setApiUserId($apiUserId);
-        $this->setApiPassword($apiPassword);
-    }
-
-    /**
-     * @param array $labelOptions
+     * @param Rate $rate
+     * @param string $imageType
+     * @param bool $isSampleOnly
      * @return mixed
      * @throws Exception
      */
-    public function createIndicium(array $labelOptions)
+    public function createIndicium(Rate $rate, string $imageType = ImageType::PNG, bool $isSampleOnly = true)
     {
-        // 1. Check account balance
-        if (!$labelOptions['SampleOnly']) $this->checkAccountBalance();
+        if (!$isSampleOnly) $this->checkAccountBalance();
+        $this->cleanseAddress($rate->getFrom());
+        $this->cleanseAddress($rate->getTo());
 
-        // 2. Cleanse recipient address
-        $this->cleanseAddress((new Address())->fillFromArray($labelOptions['Rate']['To']));
-
-        $labelOptions['Authenticator'] = $this->getAuthToken();
-        return $this->soapClient->CreateIndicium($labelOptions);
+        return $this->getSoapClient()->CreateIndicium([
+            'Authenticator' => $this->getAuthToken(),
+            'IntegratorTxID' => time(),
+            'SampleOnly' => $isSampleOnly,
+            'ImageType' => $imageType,
+            'Rate' => $rate->toSoapArray()
+        ]);
     }
 
     /**
@@ -52,7 +38,7 @@ class StampsSoapClient extends BaseClient
      */
     public function cancelIndicium(string $stampsTxID)
     {
-        return $this->soapClient->CancelIndicium([
+        return $this->getSoapClient()->CancelIndicium([
             'Authenticator' => $this->getAuthToken(),
             'StampsTxID' => $stampsTxID,
         ]);
@@ -65,32 +51,25 @@ class StampsSoapClient extends BaseClient
      */
     public function cleanseAddress(Address $address)
     {
-        $cleanseToAddressResponse = $this->soapClient->CleanseAddress([
+        $cleanseToAddressResponse = $this->getSoapClient()->CleanseAddress([
             'Authenticator' => $this->getAuthToken(),
-            'Address' => [
-                'FullName' => $address->getFullName(),
-                'Address1' => $address->getAddress1(),
-                'Address2' => $address->getAddress2(),
-                'City' => $address->getCity(),
-                'State' => $address->getState(),
-                'ZIPcode' => $address->getZipcode()
-            ]
+            'Address' => $address->toSoapArray()
         ]);
 
         if (!$cleanseToAddressResponse->CityStateZipOK) {
-            throw new Exception('Invalid to address.');
+            throw new Exception('Invalid address.');
         }
     }
 
     /**
-     * @param array $rateOptions
+     * @param array $options
      * @return mixed
      */
-    public function getRates(array $rateOptions)
+    public function getRates(array $options)
     {
-        return $this->soapClient->GetRates([
+        return $this->getSoapClient()->GetRates([
             'Authenticator' => $this->getAuthToken(),
-            'Rate' => $rateOptions
+            'Rate' => $options
         ]);
     }
 
@@ -99,28 +78,12 @@ class StampsSoapClient extends BaseClient
      */
     public function getAccountInfo()
     {
-        return $this->soapClient->GetAccountInfo([
+        return $this->getSoapClient()->GetAccountInfo([
             'Authenticator' => $this->getAuthToken()
         ]);
     }
 
     //================================================================================================================
-
-    /**
-     * @return string
-     */
-    private function getAuthToken(): string
-    {
-        $response = $this->soapClient->AuthenticateUser([
-            'Credentials' => [
-                'IntegrationID' => $this->apiIntegrationId,
-                'Username' => $this->apiUserId,
-                'Password' => $this->apiPassword
-            ]
-        ]);
-
-        return $response->Authenticator;
-    }
 
     /**
      * @return void

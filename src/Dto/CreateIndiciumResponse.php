@@ -2,18 +2,21 @@
 
 namespace Panacea\Stamps\Dto;
 
-use Panacea\Stamps\Contracts\Dto;
-use Panacea\Stamps\Entities\Label;
+use Panacea\Stamps\Contracts\BaseDto;
+use Panacea\Stamps\Entities\LabelFileObject;
+use Panacea\Stamps\Traits\InstanceBehavior;
 
-class CreateIndiciumResponse implements Dto
+class CreateIndiciumResponse implements BaseDto
 {
+    use InstanceBehavior;
+
     /**
      * @var Rate
      */
     private $rate;
 
     /**
-     * @var Label
+     * @var LabelFileObject
      */
     private $label;
 
@@ -33,34 +36,6 @@ class CreateIndiciumResponse implements Dto
     private $url;
 
     /**
-     * @inheritDoc
-     * @return $this
-     */
-    public function fillFromSoap($createIndiciumResponse): self
-    {
-        return $this
-            ->setRate((new Rate())->fillFromSoap($createIndiciumResponse->Rate))
-            ->setLabel(new Label($createIndiciumResponse->URL))
-            ->setTrackingNumber($createIndiciumResponse->TrackingNumber)
-            ->setStampsTxID($createIndiciumResponse->StampsTxID)
-            ->setUrl($createIndiciumResponse->URL);
-    }
-
-    /**
-     * @inheritDoc
-     * @return $this
-     */
-    public function fillFromArray($createIndiciumResponse): self
-    {
-        return $this
-            ->setRate((new Rate())->fillFromSoap($createIndiciumResponse['Rate']))
-            ->setLabel(new Label($createIndiciumResponse['URL']))
-            ->setTrackingNumber($createIndiciumResponse['TrackingNumber'])
-            ->setStampsTxID($createIndiciumResponse['StampsTxID'])
-            ->setUrl($createIndiciumResponse['URL']);
-    }
-
-    /**
      * @return Rate
      */
     public function getRate(): Rate
@@ -70,27 +45,27 @@ class CreateIndiciumResponse implements Dto
 
     /**
      * @param Rate $rate
-     * @return $this
+     * @return CreateIndiciumResponse
      */
-    public function setRate(Rate $rate): self
+    public function setRate(Rate $rate): CreateIndiciumResponse
     {
         $this->rate = $rate;
         return $this;
     }
 
     /**
-     * @return Label
+     * @return LabelFileObject
      */
-    public function getLabel(): Label
+    public function getLabel(): LabelFileObject
     {
         return $this->label;
     }
 
     /**
-     * @param Label $label
-     * @return $this
+     * @param LabelFileObject $label
+     * @return CreateIndiciumResponse
      */
-    public function setLabel(Label $label): self
+    public function setLabel(LabelFileObject $label): CreateIndiciumResponse
     {
         $this->label = $label;
         return $this;
@@ -106,9 +81,9 @@ class CreateIndiciumResponse implements Dto
 
     /**
      * @param string $trackingNumber
-     * @return $this
+     * @return CreateIndiciumResponse
      */
-    public function setTrackingNumber(string $trackingNumber): self
+    public function setTrackingNumber(string $trackingNumber): CreateIndiciumResponse
     {
         $this->trackingNumber = $trackingNumber;
         return $this;
@@ -124,9 +99,9 @@ class CreateIndiciumResponse implements Dto
 
     /**
      * @param string $stampsTxID
-     * @return $this
+     * @return CreateIndiciumResponse
      */
-    public function setStampsTxID(string $stampsTxID): self
+    public function setStampsTxID(string $stampsTxID): CreateIndiciumResponse
     {
         $this->stampsTxID = $stampsTxID;
         return $this;
@@ -142,11 +117,50 @@ class CreateIndiciumResponse implements Dto
 
     /**
      * @param string $url
-     * @return $this
+     * @return CreateIndiciumResponse
      */
-    public function setUrl(string $url): self
+    public function setUrl(string $url): CreateIndiciumResponse
     {
         $this->url = $url;
         return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toSoapArray(): array
+    {
+        return [
+            'Rate' => $this->getRate()->toSoapArray(),
+            'TrackingNumber' => $this->getTrackingNumber(),
+            'StampsTxID' => $this->getStampsTxID(),
+            'URL' => $this->getUrl(),
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fillFromSoap($createIndiciumResponse): self
+    {
+        return $this
+            ->setRate(Rate::instance($createIndiciumResponse->Rate))
+            ->setLabel(new LabelFileObject($createIndiciumResponse->URL))
+            ->setTrackingNumber($createIndiciumResponse->TrackingNumber)
+            ->setStampsTxID($createIndiciumResponse->StampsTxID)
+            ->setUrl($createIndiciumResponse->URL);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fillFromArray($createIndiciumResponse): self
+    {
+        return $this
+            ->setRate(Rate::instance($createIndiciumResponse['Rate']))
+            ->setLabel(new LabelFileObject($createIndiciumResponse['URL']))
+            ->setTrackingNumber($createIndiciumResponse['TrackingNumber'])
+            ->setStampsTxID($createIndiciumResponse['StampsTxID'])
+            ->setUrl($createIndiciumResponse['URL']);
     }
 }

@@ -2,10 +2,13 @@
 
 namespace Panacea\Stamps\Dto;
 
-use Panacea\Stamps\Contracts\Dto;
+use Panacea\Stamps\Contracts\BaseDto;
+use Panacea\Stamps\Traits\InstanceBehavior;
 
-class Rate implements Dto
+class Rate implements BaseDto
 {
+    use InstanceBehavior;
+
     /**
      * @var Address
      */
@@ -52,40 +55,9 @@ class Rate implements Dto
     private $deliveryDate;
 
     /**
-     * @inheritDoc
-     * @return $this
+     * @var AddOns
      */
-    public function fillFromSoap($rate)
-    {
-        return $this
-            ->setFrom((new Address())->fillFromSoap($rate->From))
-            ->setTo((new Address())->fillFromSoap($rate->To))
-            ->setAmount($rate->Amount)
-            ->setServiceType($rate->ServiceType)
-            ->setDeliverDays($rate->DeliverDays)
-            ->setWeightOz($rate->WeightOz)
-            ->setPackageType($rate->PackageType)
-            ->setShippingDate($rate->ShipDate)
-            ->setDeliveryDate($rate->DeliveryDate);
-    }
-
-    /**
-     * @inheritDoc
-     * @return $this
-     */
-    public function fillFromArray($rate): self
-    {
-        return $this
-            ->setFrom((new Address())->fillFromSoap($rate['From']))
-            ->setTo((new Address())->fillFromSoap($rate['To']))
-            ->setAmount($rate['Amount'])
-            ->setServiceType($rate['ServiceType'])
-            ->setDeliverDays($rate['DeliverDays'])
-            ->setWeightOz($rate['WeightOz'])
-            ->setPackageType($rate['PackageType'])
-            ->setShippingDate($rate['ShipDate'])
-            ->setDeliveryDate($rate['DeliveryDate']);
-    }
+    private $addOns;
 
     /**
      * @return Address
@@ -97,9 +69,9 @@ class Rate implements Dto
 
     /**
      * @param Address $from
-     * @return $this
+     * @return Rate
      */
-    public function setFrom(Address $from): self
+    public function setFrom(Address $from): Rate
     {
         $this->from = $from;
         return $this;
@@ -115,9 +87,9 @@ class Rate implements Dto
 
     /**
      * @param Address $to
-     * @return $this
+     * @return Rate
      */
-    public function setTo(Address $to): self
+    public function setTo(Address $to): Rate
     {
         $this->to = $to;
         return $this;
@@ -133,9 +105,9 @@ class Rate implements Dto
 
     /**
      * @param float $amount
-     * @return $this
+     * @return Rate
      */
-    public function setAmount(float $amount): self
+    public function setAmount(float $amount): Rate
     {
         $this->amount = $amount;
         return $this;
@@ -151,9 +123,9 @@ class Rate implements Dto
 
     /**
      * @param string $serviceType
-     * @return $this
+     * @return Rate
      */
-    public function setServiceType(string $serviceType): self
+    public function setServiceType(string $serviceType): Rate
     {
         $this->serviceType = $serviceType;
         return $this;
@@ -169,9 +141,9 @@ class Rate implements Dto
 
     /**
      * @param int $deliverDays
-     * @return $this
+     * @return Rate
      */
-    public function setDeliverDays(int $deliverDays): self
+    public function setDeliverDays(int $deliverDays): Rate
     {
         $this->deliverDays = $deliverDays;
         return $this;
@@ -187,9 +159,9 @@ class Rate implements Dto
 
     /**
      * @param int $weightOz
-     * @return $this
+     * @return Rate
      */
-    public function setWeightOz(int $weightOz): self
+    public function setWeightOz(int $weightOz): Rate
     {
         $this->weightOz = $weightOz;
         return $this;
@@ -205,9 +177,9 @@ class Rate implements Dto
 
     /**
      * @param string $packageType
-     * @return $this
+     * @return Rate
      */
-    public function setPackageType(string $packageType): self
+    public function setPackageType(string $packageType): Rate
     {
         $this->packageType = $packageType;
         return $this;
@@ -223,9 +195,9 @@ class Rate implements Dto
 
     /**
      * @param string $shippingDate
-     * @return $this
+     * @return Rate
      */
-    public function setShippingDate(string $shippingDate): self
+    public function setShippingDate(string $shippingDate): Rate
     {
         $this->shippingDate = $shippingDate;
         return $this;
@@ -241,11 +213,83 @@ class Rate implements Dto
 
     /**
      * @param string $deliveryDate
-     * @return $this
+     * @return Rate
      */
-    public function setDeliveryDate(string $deliveryDate): self
+    public function setDeliveryDate(string $deliveryDate): Rate
     {
         $this->deliveryDate = $deliveryDate;
         return $this;
+    }
+
+    /**
+     * @return AddOns
+     */
+    public function getAddOns(): AddOns
+    {
+        return $this->addOns;
+    }
+
+    /**
+     * @param AddOns $addOns
+     * @return Rate
+     */
+    public function setAddOns(AddOns $addOns): Rate
+    {
+        $this->addOns = $addOns;
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toSoapArray(): array
+    {
+        return [
+            'From' => $this->getFrom()->toSoapArray(),
+            'To' => $this->getTo()->toSoapArray(),
+            'ServiceType' => $this->getServiceType(),
+            'DeliverDays' => $this->getDeliverDays(),
+            'WeightOz' => $this->getWeightOz(),
+            'PackageType' => $this->getPackageType(),
+            'ShipDate' => $this->getShippingDate(),
+            'DeliveryDate' => $this->getDeliveryDate(),
+            'AddOns' => $this->getAddOns()->toSoapArray(),
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function fillFromSoap($rate): self
+    {
+        return $this
+            ->setFrom(Address::instance($rate->From))
+            ->setTo(Address::instance($rate->To))
+            ->setAmount($rate->Amount)
+            ->setServiceType($rate->ServiceType)
+            ->setDeliverDays($rate->DeliverDays)
+            ->setWeightOz($rate->WeightOz)
+            ->setPackageType($rate->PackageType)
+            ->setShippingDate($rate->ShipDate)
+            ->setDeliveryDate($rate->DeliveryDate)
+            ->setAddOns(AddOns::instance($rate->AddOns));
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function fillFromArray($rate): self
+    {
+        return $this
+            ->setFrom(Address::instance($rate['From']))
+            ->setTo(Address::instance($rate['To']))
+            ->setAmount($rate['Amount'])
+            ->setServiceType($rate['ServiceType'])
+            ->setDeliverDays($rate['DeliverDays'])
+            ->setWeightOz($rate['WeightOz'])
+            ->setPackageType($rate['PackageType'])
+            ->setShippingDate($rate['ShipDate'])
+            ->setDeliveryDate($rate['DeliveryDate'])
+            ->setAddOns(AddOns::instance($rate['AddOns']));
     }
 }
