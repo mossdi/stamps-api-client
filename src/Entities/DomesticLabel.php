@@ -101,7 +101,7 @@ class DomesticLabel
         Address $to,
         string $shipDate,
         float $weightOz,
-        bool $isSampleOnly = true,
+        bool $isSampleOnly = false,
         bool $showPrice = false,
         string $imageType = ImageType::PDF,
         string $packageType = PackageType::PACKAGE,
