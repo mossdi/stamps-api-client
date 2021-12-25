@@ -59,7 +59,7 @@ class Address implements BaseDto
         string $city,
         string $state,
         string $zipcode,
-        string $country,
+        string $country = 'US',
         string $address2 = null
     ) {
         $this
