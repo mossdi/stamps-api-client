@@ -50,7 +50,7 @@ class Address implements BaseDto
      * @param string $city
      * @param string $state
      * @param string $zipcode
-     * @param string $country
+     * @param string|null $country
      * @param string|null $address2
      */
     public function __construct(
@@ -59,7 +59,7 @@ class Address implements BaseDto
         string $city,
         string $state,
         string $zipcode,
-        string $country = 'US',
+        ?string $country = 'US',
         ?string $address2 = ''
     ) {
         $this
@@ -68,7 +68,7 @@ class Address implements BaseDto
             ->setCity($city)
             ->setState($state)
             ->setZipcode($zipcode)
-            ->setCountry($country)
+            ->setCountry($country ?: 'US')
             ->setAddress2($address2 ?: '');
     }
 
@@ -83,7 +83,7 @@ class Address implements BaseDto
             $address->City,
             $address->State,
             $address->ZIPCode,
-            $address->Country,
+            $address->Country ?? null,
             $address->Address2 ?? null
         );
     }
@@ -99,7 +99,7 @@ class Address implements BaseDto
             $address['City'],
             $address['State'],
             $address['ZIPCode'],
-            $address['Country'],
+            $address['Country'] ?? null,
             $address['Address2'] ?? null
         );
     }
@@ -112,10 +112,11 @@ class Address implements BaseDto
         return [
             'FullName' => $this->getFullName(),
             'Address1' => $this->getAddress1(),
-            'Address2' => $this->getAddress2(),
             'City' => $this->getCity(),
             'State' => $this->getState(),
-            'ZIPCode' => $this->getZipcode()
+            'ZIPCode' => $this->getZipcode(),
+            'Country' => $this->getCountry(),
+            'Address2' => $this->getAddress2(),
         ];
     }
 
