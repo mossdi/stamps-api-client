@@ -87,6 +87,13 @@ class DomesticLabel
     protected $shipDate;
 
     /**
+     * Can be set when the create method has been called
+     *
+     * @var string
+     */
+    protected $stampsTxID;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -290,15 +297,18 @@ class DomesticLabel
             $this->isSampleOnly()
         );
 
-        return CreateIndiciumResponse::instance($indiciumResponse);
+        $createIndiciumResponse = CreateIndiciumResponse::instance($indiciumResponse);
+
+        $this->stampsTxID = $createIndiciumResponse->getStampsTxID();
+
+        return $createIndiciumResponse;
     }
 
     /**
-     * @param string $stampsTxID
      * @return mixed
      */
-    public function cancel(string $stampsTxID)
+    public function cancel()
     {
-        return $this->stampsSoapClient->cancelIndicium($stampsTxID);
+        return $this->stampsSoapClient->cancelIndicium($this->stampsTxID);
     }
 }
