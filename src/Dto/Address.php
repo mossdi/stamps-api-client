@@ -60,7 +60,7 @@ class Address implements BaseDto
         string $state,
         string $zipcode,
         string $country = 'US',
-        string $address2 = ''
+        ?string $address2 = ''
     ) {
         $this
             ->setFullName($fullName)
@@ -69,7 +69,7 @@ class Address implements BaseDto
             ->setState($state)
             ->setZipcode($zipcode)
             ->setCountry($country)
-            ->setAddress2($address2);
+            ->setAddress2($address2 ?: '');
     }
 
     /**
