@@ -15,21 +15,29 @@ class AddOns implements BaseDto
     private $addOnV16;
 
     /**
-     * @return AddOnV16
+     * @param AddOnV16 $addOnV16
      */
-    public function getAddOnV16(): AddOnV16
+    public function __construct(AddOnV16 $addOnV16)
     {
-        return $this->addOnV16;
+        $this->setAddOnV16($addOnV16);
     }
 
     /**
-     * @param AddOnV16 $addOnV16
-     * @return AddOns
+     * @param $addOns
+     * @return $this
      */
-    public function setAddOnV16(AddOnV16 $addOnV16): AddOns
+    protected static function instanceFromSoap($addOns): self
     {
-        $this->addOnV16 = $addOnV16;
-        return $this;
+        return new self(AddOnV16::instance($addOns->AddOnV16));
+    }
+
+    /**
+     * @param $addOns
+     * @return $this
+     */
+    protected static function instanceFromArray($addOns): self
+    {
+        return new self(AddOnV16::instance($addOns['AddOnV16']));
     }
 
     /**
@@ -43,22 +51,20 @@ class AddOns implements BaseDto
     }
 
     /**
-     * @param $addOns
-     * @return $this
+     * @return AddOnV16
      */
-    protected function fillFromSoap($addOns): self
+    public function getAddOnV16(): AddOnV16
     {
-        return $this
-            ->setAddOnV16(AddOnV16::instance($addOns->AddOnV16));
+        return $this->addOnV16;
     }
 
     /**
-     * @param $addOns
-     * @return $this
+     * @param AddOnV16 $addOnV16
+     * @return AddOns
      */
-    protected function fillFromArray($addOns): self
+    private function setAddOnV16(AddOnV16 $addOnV16): AddOns
     {
-        return $this
-            ->setAddOnV16(AddOnV16::instance($addOns['AddOnV16']));
+        $this->addOnV16 = $addOnV16;
+        return $this;
     }
 }

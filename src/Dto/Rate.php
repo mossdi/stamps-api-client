@@ -60,183 +60,78 @@ class Rate implements BaseDto
     private $addOns;
 
     /**
-     * @return Address
-     */
-    public function getFrom(): Address
-    {
-        return $this->from;
-    }
-
-    /**
      * @param Address $from
-     * @return Rate
-     */
-    public function setFrom(Address $from): Rate
-    {
-        $this->from = $from;
-        return $this;
-    }
-
-    /**
-     * @return Address
-     */
-    public function getTo(): Address
-    {
-        return $this->to;
-    }
-
-    /**
      * @param Address $to
-     * @return Rate
-     */
-    public function setTo(Address $to): Rate
-    {
-        $this->to = $to;
-        return $this;
-    }
-
-    /**
-     * @return float
-     */
-    public function getAmount(): float
-    {
-        return $this->amount;
-    }
-
-    /**
      * @param float $amount
-     * @return Rate
-     */
-    public function setAmount(float $amount): Rate
-    {
-        $this->amount = $amount;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getServiceType(): string
-    {
-        return $this->serviceType;
-    }
-
-    /**
      * @param string $serviceType
-     * @return Rate
-     */
-    public function setServiceType(string $serviceType): Rate
-    {
-        $this->serviceType = $serviceType;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getDeliverDays(): int
-    {
-        return $this->deliverDays;
-    }
-
-    /**
      * @param int $deliverDays
-     * @return Rate
-     */
-    public function setDeliverDays(int $deliverDays): Rate
-    {
-        $this->deliverDays = $deliverDays;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getWeightOz(): int
-    {
-        return $this->weightOz;
-    }
-
-    /**
      * @param int $weightOz
-     * @return Rate
-     */
-    public function setWeightOz(int $weightOz): Rate
-    {
-        $this->weightOz = $weightOz;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPackageType(): string
-    {
-        return $this->packageType;
-    }
-
-    /**
      * @param string $packageType
-     * @return Rate
-     */
-    public function setPackageType(string $packageType): Rate
-    {
-        $this->packageType = $packageType;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getShippingDate(): string
-    {
-        return $this->shippingDate;
-    }
-
-    /**
-     * @param string $shippingDate
-     * @return Rate
-     */
-    public function setShippingDate(string $shippingDate): Rate
-    {
-        $this->shippingDate = $shippingDate;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDeliveryDate(): string
-    {
-        return $this->deliveryDate;
-    }
-
-    /**
+     * @param string $shipDate
      * @param string $deliveryDate
-     * @return Rate
-     */
-    public function setDeliveryDate(string $deliveryDate): Rate
-    {
-        $this->deliveryDate = $deliveryDate;
-        return $this;
-    }
-
-    /**
-     * @return AddOns
-     */
-    public function getAddOns(): AddOns
-    {
-        return $this->addOns;
-    }
-
-    /**
      * @param AddOns $addOns
-     * @return Rate
      */
-    public function setAddOns(AddOns $addOns): Rate
+    public function __construct(
+        Address $from,
+        Address $to,
+        float $amount,
+        string $serviceType,
+        int $deliverDays,
+        int $weightOz,
+        string $packageType,
+        string $shipDate,
+        string $deliveryDate,
+        AddOns $addOns
+    ) {
+        $this
+            ->setFrom($from)
+            ->setTo($to)
+            ->setAmount($amount)
+            ->setServiceType($serviceType)
+            ->setDeliverDays($deliverDays)
+            ->setWeightOz($weightOz)
+            ->setPackageType($packageType)
+            ->setShippingDate($shipDate)
+            ->setDeliveryDate($deliveryDate)
+            ->setAddOns($addOns);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected static function instanceFromSoap($rate): self
     {
-        $this->addOns = $addOns;
-        return $this;
+        return new self(
+            Address::instance($rate->From),
+            Address::instance($rate->To),
+            $rate->Amount,
+            $rate->ServiceType,
+            $rate->DeliverDays,
+            $rate->WeightOz,
+            $rate->PackageType,
+            $rate->ShipDate,
+            $rate->DeliveryDate,
+            AddOns::instance($rate->AddOns)
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected static function instanceFromArray($rate): self
+    {
+        return new self(
+            Address::instance($rate['From']),
+            Address::instance($rate['To']),
+            $rate['Amount'],
+            $rate['ServiceType'],
+            $rate['DeliverDays'],
+            $rate['WeightOz'],
+            $rate['PackageType'],
+            $rate['ShipDate'],
+            $rate['DeliveryDate'],
+            AddOns::instance($rate['AddOns'])
+        );
     }
 
     /**
@@ -258,38 +153,182 @@ class Rate implements BaseDto
     }
 
     /**
-     * @inheritDoc
+     * @return Address
      */
-    protected function fillFromSoap($rate): self
+    public function getFrom(): Address
     {
-        return $this
-            ->setFrom(Address::instance($rate->From))
-            ->setTo(Address::instance($rate->To))
-            ->setAmount($rate->Amount)
-            ->setServiceType($rate->ServiceType)
-            ->setDeliverDays($rate->DeliverDays)
-            ->setWeightOz($rate->WeightOz)
-            ->setPackageType($rate->PackageType)
-            ->setShippingDate($rate->ShipDate)
-            ->setDeliveryDate($rate->DeliveryDate)
-            ->setAddOns(AddOns::instance($rate->AddOns));
+        return $this->from;
     }
 
     /**
-     * @inheritDoc
+     * @return Address
      */
-    protected function fillFromArray($rate): self
+    public function getTo(): Address
     {
-        return $this
-            ->setFrom(Address::instance($rate['From']))
-            ->setTo(Address::instance($rate['To']))
-            ->setAmount($rate['Amount'])
-            ->setServiceType($rate['ServiceType'])
-            ->setDeliverDays($rate['DeliverDays'])
-            ->setWeightOz($rate['WeightOz'])
-            ->setPackageType($rate['PackageType'])
-            ->setShippingDate($rate['ShipDate'])
-            ->setDeliveryDate($rate['DeliveryDate'])
-            ->setAddOns(AddOns::instance($rate['AddOns']));
+        return $this->to;
+    }
+
+    /**
+     * @return float
+     */
+    public function getAmount(): float
+    {
+        return $this->amount;
+    }
+
+    /**
+     * @return string
+     */
+    public function getServiceType(): string
+    {
+        return $this->serviceType;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDeliverDays(): int
+    {
+        return $this->deliverDays;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWeightOz(): int
+    {
+        return $this->weightOz;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPackageType(): string
+    {
+        return $this->packageType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShippingDate(): string
+    {
+        return $this->shippingDate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDeliveryDate(): string
+    {
+        return $this->deliveryDate;
+    }
+
+    /**
+     * @return AddOns
+     */
+    public function getAddOns(): AddOns
+    {
+        return $this->addOns;
+    }
+
+    /**
+     * @param Address $from
+     * @return Rate
+     */
+    private function setFrom(Address $from): Rate
+    {
+        $this->from = $from;
+        return $this;
+    }
+
+    /**
+     * @param Address $to
+     * @return Rate
+     */
+    private function setTo(Address $to): Rate
+    {
+        $this->to = $to;
+        return $this;
+    }
+
+    /**
+     * @param float $amount
+     * @return Rate
+     */
+    private function setAmount(float $amount): Rate
+    {
+        $this->amount = $amount;
+        return $this;
+    }
+
+    /**
+     * @param string $serviceType
+     * @return Rate
+     */
+    private function setServiceType(string $serviceType): Rate
+    {
+        $this->serviceType = $serviceType;
+        return $this;
+    }
+
+    /**
+     * @param int $deliverDays
+     * @return Rate
+     */
+    private function setDeliverDays(int $deliverDays): Rate
+    {
+        $this->deliverDays = $deliverDays;
+        return $this;
+    }
+
+    /**
+     * @param int $weightOz
+     * @return Rate
+     */
+    private function setWeightOz(int $weightOz): Rate
+    {
+        $this->weightOz = $weightOz;
+        return $this;
+    }
+
+    /**
+     * @param string $packageType
+     * @return Rate
+     */
+    private function setPackageType(string $packageType): Rate
+    {
+        $this->packageType = $packageType;
+        return $this;
+    }
+
+    /**
+     * @param string $shippingDate
+     * @return Rate
+     */
+    private function setShippingDate(string $shippingDate): Rate
+    {
+        $this->shippingDate = $shippingDate;
+        return $this;
+    }
+
+    /**
+     * @param string $deliveryDate
+     * @return Rate
+     */
+    private function setDeliveryDate(string $deliveryDate): Rate
+    {
+        $this->deliveryDate = $deliveryDate;
+        return $this;
+    }
+
+    /**
+     * @param AddOns $addOns
+     * @return Rate
+     */
+    private function setAddOns(AddOns $addOns): Rate
+    {
+        $this->addOns = $addOns;
+        return $this;
     }
 }

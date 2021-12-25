@@ -15,21 +15,27 @@ class AddOnV16 implements BaseDto
     private $addOnType;
 
     /**
-     * @return string
+     * @param string $addOnType
      */
-    public function getAddOnType(): string
+    public function __construct(string $addOnType)
     {
-        return $this->addOnType;
+        $this->setAddOnType($addOnType);
     }
 
     /**
-     * @param string $addOnType
-     * @return AddOnV16
+     * @inheritDoc
      */
-    public function setAddOnType(string $addOnType): AddOnV16
+    protected static function instanceFromSoap($addOnV16): self
     {
-        $this->addOnType = $addOnType;
-        return $this;
+        return new static($addOnV16->AddOnType);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected static function instanceFromArray($addOnV16): self
+    {
+        return new static($addOnV16['AddOnType']);
     }
 
     /**
@@ -43,20 +49,20 @@ class AddOnV16 implements BaseDto
     }
 
     /**
-     * @inheritDoc
+     * @return string
      */
-    protected function fillFromSoap($addOnV16): self
+    public function getAddOnType(): string
     {
-        return $this
-            ->setAddOnType($addOnV16->AddOnType);
+        return $this->addOnType;
     }
 
     /**
-     * @inheritDoc
+     * @param string $addOnType
+     * @return AddOnV16
      */
-    protected function fillFromArray($addOnV16): self
+    private function setAddOnType(string $addOnType): AddOnV16
     {
-        return $this
-            ->setAddOnType($addOnV16['AddOnType']);
+        $this->addOnType = $addOnType;
+        return $this;
     }
 }

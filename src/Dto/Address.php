@@ -22,11 +22,6 @@ class Address implements BaseDto
     /**
      * @var string
      */
-    private $address2;
-
-    /**
-     * @var string
-     */
     private $city;
 
     /**
@@ -45,129 +40,68 @@ class Address implements BaseDto
     private $country = 'US';
 
     /**
-     * @return string
+     * @var string
      */
-    public function getFullName(): string
-    {
-        return $this->fullName;
-    }
+    private $address2;
 
     /**
      * @param string $fullName
-     * @return Address
-     */
-    public function setFullName(string $fullName): Address
-    {
-        $this->fullName = $fullName;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAddress1(): string
-    {
-        return $this->address1;
-    }
-
-    /**
      * @param string $address1
-     * @return Address
-     */
-    public function setAddress1(string $address1): Address
-    {
-        $this->address1 = $address1;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAddress2(): string
-    {
-        return $this->address2;
-    }
-
-    /**
-     * @param string $address2
-     * @return Address
-     */
-    public function setAddress2(string $address2): Address
-    {
-        $this->address2 = $address2;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCity(): string
-    {
-        return $this->city;
-    }
-
-    /**
      * @param string $city
-     * @return Address
-     */
-    public function setCity(string $city): Address
-    {
-        $this->city = $city;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getState(): string
-    {
-        return $this->state;
-    }
-
-    /**
      * @param string $state
-     * @return Address
-     */
-    public function setState(string $state): Address
-    {
-        $this->state = $state;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getZipcode(): string
-    {
-        return $this->zipcode;
-    }
-
-    /**
      * @param string $zipcode
-     * @return Address
-     */
-    public function setZipcode(string $zipcode): Address
-    {
-        $this->zipcode = $zipcode;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCountry(): string
-    {
-        return $this->country;
-    }
-
-    /**
      * @param string $country
-     * @return Address
+     * @param string|null $address2
      */
-    public function setCountry(string $country): Address
+    public function __construct(
+        string $fullName,
+        string $address1,
+        string $city,
+        string $state,
+        string $zipcode,
+        string $country,
+        string $address2 = null
+    ) {
+        $this
+            ->setFullName($fullName)
+            ->setAddress1($address1)
+            ->setCity($city)
+            ->setState($state)
+            ->setZipcode($zipcode)
+            ->setCountry($country)
+            ->setAddress2($address2 ?: '');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected static function instanceFromSoap($address): self
     {
-        $this->country = $country;
-        return $this;
+        return new static(
+            $address->FullName,
+            $address->Address1,
+            $address->City,
+            $address->State,
+            $address->ZIPCode,
+            $address->Country,
+            $address->Address2 ?? null
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected static function instanceFromArray($address): self
+    {
+        return new static(
+            $address['FullName'],
+            $address['Address1'],
+            $address['City'],
+            $address['State'],
+            $address['ZIPCode'],
+            $address['Country'],
+            $address['Address2'] ?? null
+        );
     }
 
     /**
@@ -186,30 +120,128 @@ class Address implements BaseDto
     }
 
     /**
-     * @inheritDoc
+     * @return string
      */
-    protected function fillFromSoap($address): self
+    public function getFullName(): string
     {
-        return $this
-            ->setFullName($address->FullName)
-            ->setAddress1($address->Address1)
-            ->setAddress2($address->Address2 ?? '')
-            ->setCity($address->City)
-            ->setState($address->State)
-            ->setZipcode($address->ZIPCode);
+        return $this->fullName;
     }
 
     /**
-     * @inheritDoc
+     * @return string
      */
-    protected function fillFromArray($address): self
+    public function getAddress1(): string
     {
-        return $this
-            ->setFullName($address['FullName'])
-            ->setAddress1($address['Address1'])
-            ->setAddress2($address['Address2'] ?? '')
-            ->setCity($address['City'])
-            ->setState($address['State'])
-            ->setZipcode($address['ZIPCode']);
+        return $this->address1;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAddress2(): string
+    {
+        return $this->address2;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCity(): string
+    {
+        return $this->city;
+    }
+
+    /**
+     * @return string
+     */
+    public function getState(): string
+    {
+        return $this->state;
+    }
+
+    /**
+     * @return string
+     */
+    public function getZipcode(): string
+    {
+        return $this->zipcode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountry(): string
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param string $fullName
+     * @return Address
+     */
+    private function setFullName(string $fullName): Address
+    {
+        $this->fullName = $fullName;
+        return $this;
+    }
+
+    /**
+     * @param string $address1
+     * @return Address
+     */
+    private function setAddress1(string $address1): Address
+    {
+        $this->address1 = $address1;
+        return $this;
+    }
+
+    /**
+     * @param string $address2
+     * @return Address
+     */
+    private function setAddress2(string $address2): Address
+    {
+        $this->address2 = $address2;
+        return $this;
+    }
+
+    /**
+     * @param string $city
+     * @return Address
+     */
+    private function setCity(string $city): Address
+    {
+        $this->city = $city;
+        return $this;
+    }
+
+    /**
+     * @param string $state
+     * @return Address
+     */
+    private function setState(string $state): Address
+    {
+        $this->state = $state;
+        return $this;
+    }
+
+    /**
+     * @param string $zipcode
+     * @return Address
+     */
+    private function setZipcode(string $zipcode): Address
+    {
+        $this->zipcode = $zipcode;
+        return $this;
+    }
+
+    /**
+     * @param string $country
+     * @return Address
+     */
+    private function setCountry(string $country): Address
+    {
+        $this->country = $country;
+        return $this;
     }
 }

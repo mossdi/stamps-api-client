@@ -12,10 +12,10 @@ trait InstanceBehavior
     public final static function instance($data)
     {
         if (is_array($data)) {
-            return (new static())->fillFromArray($data);
+            return static::instanceFromArray($data);
         }
 
-        return (new static())->fillFromSoap($data);
+        return static::instanceFromSoap($data);
     }
 
     /**
@@ -23,12 +23,12 @@ trait InstanceBehavior
      *
      * @return static
      */
-    abstract protected function fillFromArray($data);
+    abstract static protected function instanceFromArray($data);
 
     /**
      * @param $data
      *
      * @return static
      */
-    abstract protected function fillFromSoap($data);
+    abstract static protected function instanceFromSoap($data);
 }

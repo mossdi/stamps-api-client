@@ -36,93 +36,53 @@ class CreateIndiciumResponse implements BaseDto
     private $url;
 
     /**
-     * @return Rate
-     */
-    public function getRate(): Rate
-    {
-        return $this->rate;
-    }
-
-    /**
      * @param Rate $rate
-     * @return CreateIndiciumResponse
-     */
-    public function setRate(Rate $rate): CreateIndiciumResponse
-    {
-        $this->rate = $rate;
-        return $this;
-    }
-
-    /**
-     * @return LabelFileObject
-     */
-    public function getLabel(): LabelFileObject
-    {
-        return $this->label;
-    }
-
-    /**
      * @param LabelFileObject $label
-     * @return CreateIndiciumResponse
-     */
-    public function setLabel(LabelFileObject $label): CreateIndiciumResponse
-    {
-        $this->label = $label;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTrackingNumber(): string
-    {
-        return $this->trackingNumber;
-    }
-
-    /**
      * @param string $trackingNumber
-     * @return CreateIndiciumResponse
-     */
-    public function setTrackingNumber(string $trackingNumber): CreateIndiciumResponse
-    {
-        $this->trackingNumber = $trackingNumber;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getStampsTxID(): string
-    {
-        return $this->stampsTxID;
-    }
-
-    /**
      * @param string $stampsTxID
-     * @return CreateIndiciumResponse
-     */
-    public function setStampsTxID(string $stampsTxID): CreateIndiciumResponse
-    {
-        $this->stampsTxID = $stampsTxID;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUrl(): string
-    {
-        return $this->url;
-    }
-
-    /**
      * @param string $url
-     * @return CreateIndiciumResponse
      */
-    public function setUrl(string $url): CreateIndiciumResponse
+    public function __construct(
+        Rate $rate,
+        LabelFileObject $label,
+        string $trackingNumber,
+        string $stampsTxID,
+        string $url
+    ) {
+        $this
+            ->setRate($rate)
+            ->setLabel($label)
+            ->setTrackingNumber($trackingNumber)
+            ->setStampsTxID($stampsTxID)
+            ->setUrl($url);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected static function instanceFromSoap($createIndiciumResponse): self
     {
-        $this->url = $url;
-        return $this;
+        return new self(
+            Rate::instance($createIndiciumResponse->Rate),
+            new LabelFileObject($createIndiciumResponse->URL),
+            $createIndiciumResponse->TrackingNumber,
+            $createIndiciumResponse->StampsTxID,
+            $createIndiciumResponse->URL
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected static function instanceFromArray($createIndiciumResponse): self
+    {
+        return new self(
+            Rate::instance($createIndiciumResponse['Rate']),
+            new LabelFileObject($createIndiciumResponse['URL']),
+            $createIndiciumResponse['TrackingNumber'],
+            $createIndiciumResponse['StampsTxID'],
+            $createIndiciumResponse['URL']
+        );
     }
 
     /**
@@ -139,28 +99,92 @@ class CreateIndiciumResponse implements BaseDto
     }
 
     /**
-     * @inheritDoc
+     * @return Rate
      */
-    public function fillFromSoap($createIndiciumResponse): self
+    public function getRate(): Rate
     {
-        return $this
-            ->setRate(Rate::instance($createIndiciumResponse->Rate))
-            ->setLabel(new LabelFileObject($createIndiciumResponse->URL))
-            ->setTrackingNumber($createIndiciumResponse->TrackingNumber)
-            ->setStampsTxID($createIndiciumResponse->StampsTxID)
-            ->setUrl($createIndiciumResponse->URL);
+        return $this->rate;
     }
 
     /**
-     * @inheritDoc
+     * @return LabelFileObject
      */
-    public function fillFromArray($createIndiciumResponse): self
+    public function getLabel(): LabelFileObject
     {
-        return $this
-            ->setRate(Rate::instance($createIndiciumResponse['Rate']))
-            ->setLabel(new LabelFileObject($createIndiciumResponse['URL']))
-            ->setTrackingNumber($createIndiciumResponse['TrackingNumber'])
-            ->setStampsTxID($createIndiciumResponse['StampsTxID'])
-            ->setUrl($createIndiciumResponse['URL']);
+        return $this->label;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTrackingNumber(): string
+    {
+        return $this->trackingNumber;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStampsTxID(): string
+    {
+        return $this->stampsTxID;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param Rate $rate
+     * @return CreateIndiciumResponse
+     */
+    private function setRate(Rate $rate): CreateIndiciumResponse
+    {
+        $this->rate = $rate;
+        return $this;
+    }
+
+    /**
+     * @param LabelFileObject $label
+     * @return CreateIndiciumResponse
+     */
+    private function setLabel(LabelFileObject $label): CreateIndiciumResponse
+    {
+        $this->label = $label;
+        return $this;
+    }
+
+    /**
+     * @param string $trackingNumber
+     * @return CreateIndiciumResponse
+     */
+    private function setTrackingNumber(string $trackingNumber): CreateIndiciumResponse
+    {
+        $this->trackingNumber = $trackingNumber;
+        return $this;
+    }
+
+    /**
+     * @param string $stampsTxID
+     * @return CreateIndiciumResponse
+     */
+    private function setStampsTxID(string $stampsTxID): CreateIndiciumResponse
+    {
+        $this->stampsTxID = $stampsTxID;
+        return $this;
+    }
+
+    /**
+     * @param string $url
+     * @return CreateIndiciumResponse
+     */
+    private function setUrl(string $url): CreateIndiciumResponse
+    {
+        $this->url = $url;
+        return $this;
     }
 }

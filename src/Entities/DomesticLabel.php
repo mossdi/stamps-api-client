@@ -3,15 +3,12 @@
 namespace Panacea\Stamps\Entities;
 
 use Exception;
-use Panacea\Stamps\Dto\AddOns;
-use Panacea\Stamps\Dto\Address;
-use Panacea\Stamps\Dto\CreateIndiciumResponse;
-use Panacea\Stamps\Dto\Rate;
 use Panacea\Stamps\Enums\AddOnType;
 use Panacea\Stamps\Providers\StampsSoapClient;
-use Panacea\Stamps\Enums\ImageType;
-use Panacea\Stamps\Enums\PackageType;
-use Panacea\Stamps\Enums\ServiceType;
+use Panacea\Stamps\Dto\CreateIndiciumResponse;
+use Panacea\Stamps\Dto\Address;
+use Panacea\Stamps\Dto\AddOns;
+use Panacea\Stamps\Dto\Rate;
 
 class DomesticLabel
 {
@@ -96,176 +93,29 @@ class DomesticLabel
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct(
+        Address $from,
+        Address $to,
+        float $weightOz,
+        string $imageType,
+        string $packageType,
+        string $serviceType,
+        string $shipDate,
+        bool $showPrice = false,
+        bool $isSampleOnly = true
+    ) {
         $this->stampsSoapClient = new StampsSoapClient();
 
-        $this->packageType = PackageType::PACKAGE;
-        $this->serviceType = ServiceType::FC;
-        $this->imageType = ImageType::PNG;
-        $this->shipDate = date('Y-m-d');
-    }
-
-    /**
-     * @return Address
-     */
-    public function getFrom(): Address
-    {
-        return $this->from;
-    }
-
-    /**
-     * @param Address $from
-     * @return DomesticLabel
-     */
-    public function setFrom(Address $from): self
-    {
-        $this->from = $from;
-        return $this;
-    }
-
-    /**
-     * @return Address
-     */
-    public function getTo(): Address
-    {
-        return $this->to;
-    }
-
-    /**
-     * @param Address $to
-     * @return DomesticLabel
-     */
-    public function setTo(Address $to): self
-    {
-        $this->to = $to;
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isSampleOnly(): bool
-    {
-        return $this->isSampleOnly;
-    }
-
-    /**
-     * @param bool $isSampleOnly
-     * @return DomesticLabel
-     */
-    public function setIsSampleOnly(bool $isSampleOnly): self
-    {
-        $this->isSampleOnly = $isSampleOnly;
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isShowPrice(): bool
-    {
-        return $this->showPrice;
-    }
-
-    /**
-     * @param bool $showPrice
-     * @return DomesticLabel
-     */
-    public function setShowPrice(bool $showPrice): self
-    {
-        $this->showPrice = $showPrice;
-        return $this;
-    }
-
-    /**
-     * @return float
-     */
-    public function getWeightOz(): float
-    {
-        return $this->weightOz;
-    }
-
-    /**
-     * @param float $weightOz
-     * @return DomesticLabel
-     */
-    public function setWeightOz(float $weightOz): self
-    {
-        $this->weightOz = $weightOz;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getImageType(): string
-    {
-        return $this->imageType;
-    }
-
-    /**
-     * @param string $imageType
-     * @return DomesticLabel
-     */
-    public function setImageType(string $imageType): self
-    {
-        $this->imageType = $imageType;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPackageType(): string
-    {
-        return $this->packageType;
-    }
-
-    /**
-     * @param string $packageType
-     * @return DomesticLabel
-     */
-    public function setPackageType(string $packageType): self
-    {
-        $this->packageType = $packageType;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getServiceType(): string
-    {
-        return $this->serviceType;
-    }
-
-    /**
-     * @param string $serviceType
-     * @return DomesticLabel
-     */
-    public function setServiceType(string $serviceType): self
-    {
-        $this->serviceType = $serviceType;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getShipDate(): string
-    {
-        return $this->shipDate;
-    }
-
-    /**
-     * @param string $shipDate
-     * @return DomesticLabel
-     */
-    public function setShipDate($shipDate): self
-    {
-        $this->shipDate = $shipDate;
-        return $this;
+        $this
+            ->setFrom($from)
+            ->setTo($to)
+            ->setWeightOz($weightOz)
+            ->setImageType($imageType)
+            ->setPackageType($packageType)
+            ->setServiceType($serviceType)
+            ->setShipDate($shipDate)
+            ->setShowPrice($showPrice)
+            ->setIsSampleOnly($isSampleOnly);
     }
 
     /**
@@ -305,11 +155,191 @@ class DomesticLabel
     }
 
     /**
-     * @return mixed
+     * @return mixed|void
      */
     public function cancel()
     {
         if ($this->isSampleOnly()) return;
         return $this->stampsSoapClient->cancelIndicium($this->stampsTxID);
+    }
+
+    /**
+     * @return Address
+     */
+    public function getFrom(): Address
+    {
+        return $this->from;
+    }
+
+    /**
+     * @return Address
+     */
+    public function getTo(): Address
+    {
+        return $this->to;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSampleOnly(): bool
+    {
+        return $this->isSampleOnly;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isShowPrice(): bool
+    {
+        return $this->showPrice;
+    }
+
+    /**
+     * @return float
+     */
+    public function getWeightOz(): float
+    {
+        return $this->weightOz;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageType(): string
+    {
+        return $this->imageType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPackageType(): string
+    {
+        return $this->packageType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getServiceType(): string
+    {
+        return $this->serviceType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShipDate()
+    {
+        return $this->shipDate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStampsTxID(): string
+    {
+        return $this->stampsTxID;
+    }
+
+    /**
+     * @param Address $from
+     * @return DomesticLabel
+     */
+    private function setFrom(Address $from): DomesticLabel
+    {
+        $this->from = $from;
+        return $this;
+    }
+
+    /**
+     * @param Address $to
+     * @return DomesticLabel
+     */
+    private function setTo(Address $to): DomesticLabel
+    {
+        $this->to = $to;
+        return $this;
+    }
+
+    /**
+     * @param bool $isSampleOnly
+     * @return DomesticLabel
+     */
+    private function setIsSampleOnly(bool $isSampleOnly): DomesticLabel
+    {
+        $this->isSampleOnly = $isSampleOnly;
+        return $this;
+    }
+
+    /**
+     * @param bool $showPrice
+     * @return DomesticLabel
+     */
+    private function setShowPrice(bool $showPrice): DomesticLabel
+    {
+        $this->showPrice = $showPrice;
+        return $this;
+    }
+
+    /**
+     * @param float $weightOz
+     * @return DomesticLabel
+     */
+    private function setWeightOz(float $weightOz): DomesticLabel
+    {
+        $this->weightOz = $weightOz;
+        return $this;
+    }
+
+    /**
+     * @param string $imageType
+     * @return DomesticLabel
+     */
+    private function setImageType(string $imageType): DomesticLabel
+    {
+        $this->imageType = $imageType;
+        return $this;
+    }
+
+    /**
+     * @param string $packageType
+     * @return DomesticLabel
+     */
+    private function setPackageType(string $packageType): DomesticLabel
+    {
+        $this->packageType = $packageType;
+        return $this;
+    }
+
+    /**
+     * @param string $serviceType
+     * @return DomesticLabel
+     */
+    private function setServiceType(string $serviceType): DomesticLabel
+    {
+        $this->serviceType = $serviceType;
+        return $this;
+    }
+
+    /**
+     * @param string $shipDate
+     * @return DomesticLabel
+     */
+    private function setShipDate($shipDate)
+    {
+        $this->shipDate = $shipDate;
+        return $this;
+    }
+
+    /**
+     * @param string $stampsTxID
+     * @return DomesticLabel
+     */
+    private function setStampsTxID(string $stampsTxID): DomesticLabel
+    {
+        $this->stampsTxID = $stampsTxID;
+        return $this;
     }
 }
