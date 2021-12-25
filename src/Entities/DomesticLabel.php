@@ -309,6 +309,7 @@ class DomesticLabel
      */
     public function cancel()
     {
+        if ($this->isSampleOnly()) return;
         return $this->stampsSoapClient->cancelIndicium($this->stampsTxID);
     }
 }
