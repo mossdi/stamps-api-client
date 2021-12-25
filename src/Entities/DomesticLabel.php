@@ -4,6 +4,9 @@ namespace Panacea\Stamps\Entities;
 
 use Exception;
 use Panacea\Stamps\Enums\AddOnType;
+use Panacea\Stamps\Enums\ImageType;
+use Panacea\Stamps\Enums\PackageType;
+use Panacea\Stamps\Enums\ServiceType;
 use Panacea\Stamps\Providers\StampsSoapClient;
 use Panacea\Stamps\Dto\CreateIndiciumResponse;
 use Panacea\Stamps\Dto\Address;
@@ -96,13 +99,13 @@ class DomesticLabel
     public function __construct(
         Address $from,
         Address $to,
-        float $weightOz,
-        string $imageType,
-        string $packageType,
-        string $serviceType,
         string $shipDate,
+        float $weightOz,
+        bool $isSampleOnly = true,
         bool $showPrice = false,
-        bool $isSampleOnly = true
+        string $imageType = ImageType::PDF,
+        string $packageType = PackageType::PACKAGE,
+        string $serviceType = ServiceType::FC
     ) {
         $this->stampsSoapClient = new StampsSoapClient();
 
