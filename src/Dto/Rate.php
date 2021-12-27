@@ -62,37 +62,37 @@ class Rate implements BaseDto
     /**
      * @param Address $from
      * @param Address $to
-     * @param float $amount
-     * @param string $serviceType
-     * @param int $deliverDays
      * @param int $weightOz
-     * @param string $packageType
      * @param string $shipDate
-     * @param string $deliveryDate
-     * @param AddOns $addOns
+     * @param string $serviceType
+     * @param string $packageType
+     * @param string|null $deliveryDate
+     * @param int|null $deliverDays
+     * @param float|null $amount
+     * @param AddOns|null $addOns
      */
     public function __construct(
         Address $from,
         Address $to,
-        float $amount,
-        string $serviceType,
-        int $deliverDays,
         int $weightOz,
-        string $packageType,
         string $shipDate,
-        string $deliveryDate,
-        AddOns $addOns
+        string $serviceType,
+        string $packageType,
+        ?string $deliveryDate,
+        ?int $deliverDays,
+        ?float $amount,
+        ?AddOns $addOns
     ) {
         $this
             ->setFrom($from)
             ->setTo($to)
-            ->setAmount($amount)
-            ->setServiceType($serviceType)
-            ->setDeliverDays($deliverDays)
             ->setWeightOz($weightOz)
-            ->setPackageType($packageType)
             ->setShippingDate($shipDate)
+            ->setServiceType($serviceType)
+            ->setPackageType($packageType)
             ->setDeliveryDate($deliveryDate)
+            ->setDeliverDays($deliverDays)
+            ->setAmount($amount)
             ->setAddOns($addOns);
     }
 
@@ -104,14 +104,14 @@ class Rate implements BaseDto
         return new self(
             Address::instance($rate->From),
             Address::instance($rate->To),
-            $rate->Amount,
-            $rate->ServiceType,
-            $rate->DeliverDays,
             $rate->WeightOz,
-            $rate->PackageType,
             $rate->ShipDate,
-            $rate->DeliveryDate,
-            AddOns::instance($rate->AddOns)
+            $rate->ServiceType,
+            $rate->PackageType,
+            $rate->DeliveryDate ?? null,
+            $rate->DeliverDays ?? null,
+            $rate->Amount ?? null,
+            !empty($rate->AddOns) ? AddOns::instance($rate->AddOns) : null
         );
     }
 
@@ -123,14 +123,14 @@ class Rate implements BaseDto
         return new self(
             Address::instance($rate['From']),
             Address::instance($rate['To']),
-            $rate['Amount'],
-            $rate['ServiceType'],
-            $rate['DeliverDays'],
             $rate['WeightOz'],
-            $rate['PackageType'],
             $rate['ShipDate'],
-            $rate['DeliveryDate'],
-            AddOns::instance($rate['AddOns'])
+            $rate['ServiceType'],
+            $rate['PackageType'],
+            $rate['DeliveryDate'] ?? null,
+            $rate['DeliverDays'] ?? null,
+            $rate['Amount'] ?? null,
+            !empty($rate['AddOns']) ? AddOns::instance($rate['AddOns']) : null
         );
     }
 
@@ -142,12 +142,13 @@ class Rate implements BaseDto
         return [
             'From' => $this->getFrom()->toSoapArray(),
             'To' => $this->getTo()->toSoapArray(),
-            'ServiceType' => $this->getServiceType(),
-            'DeliverDays' => $this->getDeliverDays(),
             'WeightOz' => $this->getWeightOz(),
-            'PackageType' => $this->getPackageType(),
             'ShipDate' => $this->getShippingDate(),
+            'ServiceType' => $this->getServiceType(),
+            'PackageType' => $this->getPackageType(),
             'DeliveryDate' => $this->getDeliveryDate(),
+            'DeliverDays' => $this->getDeliverDays(),
+            'Amount' => $this->getAmount(),
             'AddOns' => $this->getAddOns()->toSoapArray(),
         ];
     }
@@ -253,10 +254,10 @@ class Rate implements BaseDto
     }
 
     /**
-     * @param float $amount
+     * @param float|null $amount
      * @return Rate
      */
-    private function setAmount(float $amount): Rate
+    private function setAmount(?float $amount): Rate
     {
         $this->amount = $amount;
         return $this;
@@ -273,10 +274,10 @@ class Rate implements BaseDto
     }
 
     /**
-     * @param int $deliverDays
+     * @param int|null $deliverDays
      * @return Rate
      */
-    private function setDeliverDays(int $deliverDays): Rate
+    private function setDeliverDays(?int $deliverDays): Rate
     {
         $this->deliverDays = $deliverDays;
         return $this;
@@ -313,20 +314,20 @@ class Rate implements BaseDto
     }
 
     /**
-     * @param string $deliveryDate
+     * @param string|null $deliveryDate
      * @return Rate
      */
-    private function setDeliveryDate(string $deliveryDate): Rate
+    private function setDeliveryDate(?string $deliveryDate): Rate
     {
         $this->deliveryDate = $deliveryDate;
         return $this;
     }
 
     /**
-     * @param AddOns $addOns
+     * @param AddOns|null $addOns
      * @return Rate
      */
-    private function setAddOns(AddOns $addOns): Rate
+    private function setAddOns(?AddOns $addOns): Rate
     {
         $this->addOns = $addOns;
         return $this;

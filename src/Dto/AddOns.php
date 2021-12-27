@@ -10,16 +10,16 @@ class AddOns implements BaseDto
     use InstanceBehavior;
 
     /**
-     * @var AddOnV16
+     * @var array
      */
-    private $addOnV16;
+    private $addOnsList;
 
     /**
-     * @param AddOnV16 $addOnV16
+     * @param array $addOns
      */
-    public function __construct(AddOnV16 $addOnV16)
+    public function __construct(array $addOns)
     {
-        $this->setAddOnV16($addOnV16);
+        $this->setAddOnsList($addOns);
     }
 
     /**
@@ -28,7 +28,13 @@ class AddOns implements BaseDto
      */
     protected static function instanceFromSoap($addOns): self
     {
-        return new self(AddOnV16::instance($addOns->AddOnV16));
+        $addOnsList = [];
+
+        foreach ($addOns as $key => $value) {
+            $addOnsList[$key] = $value;
+        }
+
+        return new self($addOnsList);
     }
 
     /**
@@ -37,7 +43,7 @@ class AddOns implements BaseDto
      */
     protected static function instanceFromArray($addOns): self
     {
-        return new self(AddOnV16::instance($addOns['AddOnV16']));
+        return new self($addOns);
     }
 
     /**
@@ -45,26 +51,24 @@ class AddOns implements BaseDto
      */
     public function toSoapArray(): array
     {
-        return [
-            'AddOnV16' => $this->getAddOnV16()->toSoapArray(),
-        ];
+        return $this->getAddOnsList();
     }
 
     /**
-     * @return AddOnV16
+     * @return array
      */
-    public function getAddOnV16(): AddOnV16
+    public function getAddOnsList(): array
     {
-        return $this->addOnV16;
+        return $this->addOnsList;
     }
 
     /**
-     * @param AddOnV16 $addOnV16
+     * @param array $addOnsList
      * @return AddOns
      */
-    private function setAddOnV16(AddOnV16 $addOnV16): AddOns
+    private function setAddOnsList(array $addOnsList): AddOns
     {
-        $this->addOnV16 = $addOnV16;
+        $this->addOnsList = $addOnsList;
         return $this;
     }
 }
