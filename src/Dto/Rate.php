@@ -172,7 +172,7 @@ class Rate implements BaseDto
     /**
      * @return float
      */
-    public function getAmount(): float
+    public function getAmount(): ?float
     {
         return $this->amount;
     }
@@ -186,9 +186,9 @@ class Rate implements BaseDto
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getDeliverDays(): int
+    public function getDeliverDays(): ?int
     {
         return $this->deliverDays;
     }
@@ -218,9 +218,9 @@ class Rate implements BaseDto
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getDeliveryDate(): string
+    public function getDeliveryDate(): ?string
     {
         return $this->deliveryDate;
     }

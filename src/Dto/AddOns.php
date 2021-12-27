@@ -28,13 +28,7 @@ class AddOns implements BaseDto
      */
     protected static function instanceFromSoap($addOns): self
     {
-        $addOnsList = [];
-
-        foreach ($addOns as $key => $value) {
-            $addOnsList[$key] = $value;
-        }
-
-        return new self($addOnsList);
+        return new self(json_decode(json_encode($addOns), true));
     }
 
     /**

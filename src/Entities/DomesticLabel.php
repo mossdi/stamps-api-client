@@ -137,11 +137,7 @@ class DomesticLabel
         ];
 
         if (!$this->showPrice) {
-            $rateData['AddOns'] = AddOns::instance([
-                'AddOnV16' => [
-                    'AddOnType' => AddOnType::HIDE_PRICE
-                ]
-            ]);
+            $rateData['AddOns']['AddOnV1'] = ['AddOnType' => AddOnType::HIDE_PRICE];
         }
 
         $indiciumResponse = $this->stampsSoapClient->createIndicium(
