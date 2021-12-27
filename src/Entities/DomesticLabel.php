@@ -10,7 +10,6 @@ use Panacea\Stamps\Enums\ServiceType;
 use Panacea\Stamps\Providers\StampsSoapClient;
 use Panacea\Stamps\Dto\CreateIndiciumResponse;
 use Panacea\Stamps\Dto\Address;
-use Panacea\Stamps\Dto\AddOns;
 use Panacea\Stamps\Dto\Rate;
 
 class DomesticLabel
