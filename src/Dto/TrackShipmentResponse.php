@@ -2,10 +2,11 @@
 
 namespace Panacea\Stamps\Dto;
 
+use Panacea\Stamps\Contracts\BaseDto;
 use Panacea\Stamps\Exceptions\Exception;
 use Panacea\Stamps\Traits\InstanceBehavior;
 
-class TrackShipmentResponse implements \Panacea\Stamps\Contracts\BaseDto
+class TrackShipmentResponse implements BaseDto
 {
     use InstanceBehavior;
 
