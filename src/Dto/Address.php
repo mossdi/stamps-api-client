@@ -178,6 +178,7 @@ class Address implements BaseDto
 
     /**
      * @param string $fullName
+     *
      * @return Address
      */
     private function setFullName(string $fullName): Address
@@ -188,6 +189,7 @@ class Address implements BaseDto
 
     /**
      * @param string $address1
+     *
      * @return Address
      */
     private function setAddress1(string $address1): Address
@@ -198,6 +200,7 @@ class Address implements BaseDto
 
     /**
      * @param string $address2
+     *
      * @return Address
      */
     private function setAddress2(string $address2): Address
@@ -208,6 +211,7 @@ class Address implements BaseDto
 
     /**
      * @param string $city
+     *
      * @return Address
      */
     private function setCity(string $city): Address
@@ -218,6 +222,7 @@ class Address implements BaseDto
 
     /**
      * @param string $state
+     *
      * @return Address
      */
     private function setState(string $state): Address
@@ -228,6 +233,7 @@ class Address implements BaseDto
 
     /**
      * @param string $zipcode
+     *
      * @return Address
      */
     private function setZipcode(string $zipcode): Address
@@ -238,6 +244,7 @@ class Address implements BaseDto
 
     /**
      * @param string $country
+     *
      * @return Address
      */
     private function setCountry(string $country): Address

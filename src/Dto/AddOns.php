@@ -23,8 +23,7 @@ class AddOns implements BaseDto
     }
 
     /**
-     * @param $addOns
-     * @return $this
+     * @inheritDoc
      */
     protected static function instanceFromSoap($addOns): self
     {
@@ -32,8 +31,7 @@ class AddOns implements BaseDto
     }
 
     /**
-     * @param $addOns
-     * @return $this
+     * @inheritDoc
      */
     protected static function instanceFromArray($addOns): self
     {
@@ -58,6 +56,7 @@ class AddOns implements BaseDto
 
     /**
      * @param array $addOnsList
+     *
      * @return AddOns
      */
     private function setAddOnsList(array $addOnsList): AddOns

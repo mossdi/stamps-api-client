@@ -140,6 +140,7 @@ class CreateIndiciumResponse implements BaseDto
 
     /**
      * @param Rate $rate
+     *
      * @return CreateIndiciumResponse
      */
     private function setRate(Rate $rate): CreateIndiciumResponse
@@ -150,6 +151,7 @@ class CreateIndiciumResponse implements BaseDto
 
     /**
      * @param LabelFileObject $label
+     *
      * @return CreateIndiciumResponse
      */
     private function setLabel(LabelFileObject $label): CreateIndiciumResponse
@@ -160,6 +162,7 @@ class CreateIndiciumResponse implements BaseDto
 
     /**
      * @param string $trackingNumber
+     *
      * @return CreateIndiciumResponse
      */
     private function setTrackingNumber(string $trackingNumber): CreateIndiciumResponse
@@ -170,6 +173,7 @@ class CreateIndiciumResponse implements BaseDto
 
     /**
      * @param string $stampsTxID
+     *
      * @return CreateIndiciumResponse
      */
     private function setStampsTxID(string $stampsTxID): CreateIndiciumResponse
@@ -180,6 +184,7 @@ class CreateIndiciumResponse implements BaseDto
 
     /**
      * @param string $url
+     *
      * @return CreateIndiciumResponse
      */
     private function setUrl(string $url): CreateIndiciumResponse

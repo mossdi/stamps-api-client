@@ -14,7 +14,9 @@ class StampsSoapClient extends BaseSoapClient
      * @param Rate $rate
      * @param string $imageType
      * @param bool $isSampleOnly
+     *
      * @return mixed
+     *
      * @throws Exception
      */
     public function createIndicium(Rate $rate, string $imageType = ImageType::PNG, bool $isSampleOnly = true)
@@ -34,6 +36,7 @@ class StampsSoapClient extends BaseSoapClient
 
     /**
      * @param string $stampsTxID
+     *
      * @return mixed
      */
     public function cancelIndicium(string $stampsTxID)
@@ -45,8 +48,23 @@ class StampsSoapClient extends BaseSoapClient
     }
 
     /**
+     * @param string $stampsTxID
+     *
+     * @return mixed
+     */
+    public function trackShipment(string $stampsTxID)
+    {
+        return $this->getSoapClient()->TrackShipment([
+            'Authenticator' => $this->getAuthToken(),
+            'StampsTxID' => $stampsTxID,
+        ]);
+    }
+
+    /**
      * @param Address $address
+     *
      * @return void
+     *
      * @throws Exception
      */
     public function cleanseAddress(Address $address)
@@ -63,6 +81,7 @@ class StampsSoapClient extends BaseSoapClient
 
     /**
      * @param array $options
+     *
      * @return mixed
      */
     public function getRates(array $options)
@@ -83,10 +102,9 @@ class StampsSoapClient extends BaseSoapClient
         ]);
     }
 
-    //================================================================================================================
-
     /**
      * @return void
+     *
      * @throws Exception
      */
     private function checkAccountBalance()

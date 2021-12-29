@@ -235,6 +235,7 @@ class Rate implements BaseDto
 
     /**
      * @param Address $from
+     *
      * @return Rate
      */
     private function setFrom(Address $from): Rate
@@ -245,6 +246,7 @@ class Rate implements BaseDto
 
     /**
      * @param Address $to
+     *
      * @return Rate
      */
     private function setTo(Address $to): Rate
@@ -255,6 +257,7 @@ class Rate implements BaseDto
 
     /**
      * @param float|null $amount
+     *
      * @return Rate
      */
     private function setAmount(?float $amount): Rate
@@ -265,6 +268,7 @@ class Rate implements BaseDto
 
     /**
      * @param string $serviceType
+     *
      * @return Rate
      */
     private function setServiceType(string $serviceType): Rate
@@ -275,6 +279,7 @@ class Rate implements BaseDto
 
     /**
      * @param int|null $deliverDays
+     *
      * @return Rate
      */
     private function setDeliverDays(?int $deliverDays): Rate
@@ -285,6 +290,7 @@ class Rate implements BaseDto
 
     /**
      * @param int $weightOz
+     *
      * @return Rate
      */
     private function setWeightOz(int $weightOz): Rate
@@ -295,6 +301,7 @@ class Rate implements BaseDto
 
     /**
      * @param string $packageType
+     *
      * @return Rate
      */
     private function setPackageType(string $packageType): Rate
@@ -305,6 +312,7 @@ class Rate implements BaseDto
 
     /**
      * @param string $shippingDate
+     *
      * @return Rate
      */
     private function setShippingDate(string $shippingDate): Rate
@@ -315,6 +323,7 @@ class Rate implements BaseDto
 
     /**
      * @param string|null $deliveryDate
+     *
      * @return Rate
      */
     private function setDeliveryDate(?string $deliveryDate): Rate
@@ -325,6 +334,7 @@ class Rate implements BaseDto
 
     /**
      * @param AddOns|null $addOns
+     *
      * @return Rate
      */
     private function setAddOns(?AddOns $addOns): Rate
