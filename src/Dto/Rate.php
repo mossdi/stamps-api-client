@@ -101,7 +101,7 @@ class Rate implements BaseDto
      */
     protected static function instanceFromSoap($rate): self
     {
-        return new self(
+        return new static(
             Address::instance($rate->From),
             Address::instance($rate->To),
             $rate->WeightOz,
@@ -120,7 +120,7 @@ class Rate implements BaseDto
      */
     protected static function instanceFromArray($rate): self
     {
-        return new self(
+        return new static(
             Address::instance($rate['From']),
             Address::instance($rate['To']),
             $rate['WeightOz'],
@@ -137,11 +137,11 @@ class Rate implements BaseDto
     /**
      * @inheritDoc
      */
-    public function toSoapArray(): array
+    public function toArray(): array
     {
         return [
-            'From' => $this->getFrom()->toSoapArray(),
-            'To' => $this->getTo()->toSoapArray(),
+            'From' => $this->getFrom()->toArray(),
+            'To' => $this->getTo()->toArray(),
             'WeightOz' => $this->getWeightOz(),
             'ShipDate' => $this->getShippingDate(),
             'ServiceType' => $this->getServiceType(),
@@ -149,7 +149,7 @@ class Rate implements BaseDto
             'DeliveryDate' => $this->getDeliveryDate(),
             'DeliverDays' => $this->getDeliverDays(),
             'Amount' => $this->getAmount(),
-            'AddOns' => $this->getAddOns()->toSoapArray(),
+            'AddOns' => $this->getAddOns()->toArray(),
         ];
     }
 

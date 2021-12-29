@@ -27,7 +27,7 @@ class AddOns implements BaseDto
      */
     protected static function instanceFromSoap($addOns): self
     {
-        return new self(json_decode(json_encode($addOns), true));
+        return new static(json_decode(json_encode($addOns), true));
     }
 
     /**
@@ -35,13 +35,13 @@ class AddOns implements BaseDto
      */
     protected static function instanceFromArray($addOns): self
     {
-        return new self($addOns);
+        return new static($addOns);
     }
 
     /**
      * @inheritDoc
      */
-    public function toSoapArray(): array
+    public function toArray(): array
     {
         return $this->getAddOnsList();
     }

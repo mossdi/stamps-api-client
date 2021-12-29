@@ -11,14 +11,14 @@ class TrackShipmentResponse implements BaseDto
     use InstanceBehavior;
 
     /**
-     * @var TrackingEvent[]
+     * @var TrackingEvents
      */
     private $trackingEvents;
 
     /**
-     * @param array $trackingEvents
+     * @param TrackingEvents $trackingEvents
      */
-    public function __construct(array $trackingEvents)
+    public function __construct(TrackingEvents $trackingEvents)
     {
         $this->setTrackingEvents($trackingEvents);
     }
@@ -28,7 +28,7 @@ class TrackShipmentResponse implements BaseDto
      */
     static protected function instanceFromArray($trackShipmentResponse)
     {
-        return new static($trackShipmentResponse['TrackingEvents']);
+        return new static(TrackingEvents::instance($trackShipmentResponse['TrackingEvents']));
     }
 
     /**
@@ -36,33 +36,33 @@ class TrackShipmentResponse implements BaseDto
      */
     static protected function instanceFromSoap($trackShipmentResponse)
     {
-        return new self(json_decode(json_encode($trackShipmentResponse->TrackingEvents), true));
+        return new static(TrackingEvents::instance($trackShipmentResponse->TrackingEvents));
     }
 
     /**
      * @inheritDoc
-     *
-     * @throws Exception
      */
-    public function toSoapArray()
+    public function toArray()
     {
-        throw new Exception('Not implemented');
+        return [
+            'TrackingEvents' => $this->getTrackingEvents()->toArray(),
+        ];
     }
 
     /**
-     * @return TrackingEvent[]
+     * @return TrackingEvents
      */
-    public function getTrackingEvents(): array
+    public function getTrackingEvents(): TrackingEvents
     {
         return $this->trackingEvents;
     }
 
     /**
-     * @param TrackingEvent[] $trackingEvents
+     * @param TrackingEvents $trackingEvents
      *
      * @return TrackShipmentResponse
      */
-    private function setTrackingEvents(array $trackingEvents): TrackShipmentResponse
+    private function setTrackingEvents(TrackingEvents $trackingEvents): TrackShipmentResponse
     {
         $this->trackingEvents = $trackingEvents;
         return $this;

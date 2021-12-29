@@ -62,7 +62,7 @@ class CreateIndiciumResponse implements BaseDto
      */
     protected static function instanceFromSoap($createIndiciumResponse): self
     {
-        return new self(
+        return new static(
             Rate::instance($createIndiciumResponse->Rate),
             new LabelFileObject($createIndiciumResponse->URL),
             $createIndiciumResponse->TrackingNumber,
@@ -76,7 +76,7 @@ class CreateIndiciumResponse implements BaseDto
      */
     protected static function instanceFromArray($createIndiciumResponse): self
     {
-        return new self(
+        return new static(
             Rate::instance($createIndiciumResponse['Rate']),
             new LabelFileObject($createIndiciumResponse['URL']),
             $createIndiciumResponse['TrackingNumber'],
@@ -88,10 +88,10 @@ class CreateIndiciumResponse implements BaseDto
     /**
      * @inheritDoc
      */
-    public function toSoapArray(): array
+    public function toArray(): array
     {
         return [
-            'Rate' => $this->getRate()->toSoapArray(),
+            'Rate' => $this->getRate()->toArray(),
             'TrackingNumber' => $this->getTrackingNumber(),
             'StampsTxID' => $this->getStampsTxID(),
             'URL' => $this->getUrl(),

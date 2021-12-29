@@ -14,5 +14,5 @@ interface BaseDto
     /**
      * @return array
      */
-    public function toSoapArray();
+    public function toArray();
 }

@@ -30,7 +30,7 @@ class StampsSoapClient extends BaseSoapClient
             'IntegratorTxID' => time(),
             'SampleOnly' => $isSampleOnly,
             'ImageType' => $imageType,
-            'Rate' => $rate->toSoapArray()
+            'Rate' => $rate->toArray()
         ]);
     }
 
@@ -71,7 +71,7 @@ class StampsSoapClient extends BaseSoapClient
     {
         $cleanseToAddressResponse = $this->getSoapClient()->CleanseAddress([
             'Authenticator' => $this->getAuthToken(),
-            'Address' => $address->toSoapArray()
+            'Address' => $address->toArray()
         ]);
 
         if (!$cleanseToAddressResponse->CityStateZipOK) {

@@ -55,8 +55,8 @@ class ShippingService
     ): CreateIndiciumResponse
     {
         $rateData = [
-            'From' => $from->toSoapArray(),
-            'To' => $to->toSoapArray(),
+            'From' => $from->toArray(),
+            'To' => $to->toArray(),
             'ServiceType' => $serviceType,
             'WeightOz' => $weightOz,
             'PackageType' => $packageType,

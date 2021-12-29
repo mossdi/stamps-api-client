@@ -107,7 +107,7 @@ class Address implements BaseDto
     /**
      * @return array
      */
-    public function toSoapArray(): array
+    public function toArray(): array
     {
         return [
             'FullName' => $this->getFullName(),
