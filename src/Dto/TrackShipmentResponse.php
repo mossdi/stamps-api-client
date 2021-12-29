@@ -3,7 +3,6 @@
 namespace Panacea\Stamps\Dto;
 
 use Panacea\Stamps\Contracts\BaseDto;
-use Panacea\Stamps\Exceptions\Exception;
 use Panacea\Stamps\Traits\InstanceBehavior;
 
 class TrackShipmentResponse implements BaseDto
