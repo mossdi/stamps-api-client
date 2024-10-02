@@ -1,0 +1,10 @@
+stages:
+  - package-release
+
+deploy:
+  stage: package-release
+  only:
+    - main
+  script:
+    - apk add curl
+    - 'curl --header "Job-Token: $CI_JOB_TOKEN" --data branch=main "${CI_API_V4_URL}/projects/$CI_PROJECT_ID/packages/composer"'

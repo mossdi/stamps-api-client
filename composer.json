@@ -1,0 +1,37 @@
+{
+  "name": "mossdi/stamps-api-client",
+  "description": "A Stamps.com API integration.",
+  "type": "library",
+  "license": "MIT",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "authors": [
+    {
+      "name": "Dmitriy Mosolov",
+      "email": "dmitriy.mosolov@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=8.2",
+    "ext-curl": "*",
+    "ext-soap": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Mossdi\\Stamps\\": "src/"
+    },
+    "files": [
+      "src/Helpers/functions.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Mossdi\\Stamps\\": "tests/"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  }
+}
